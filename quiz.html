@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Final Challenge · Anniversary Quiz</title>
 
     <!-- Google Fonts -->
@@ -36,21 +36,31 @@
             --font-heading: 'Montserrat', sans-serif;
             --font-romantic: 'Dancing Script', cursive;
             --font-body: 'Montserrat', sans-serif;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         html,
         body {
             height: 100%;
+            width: 100%;
             font-family: var(--font-body);
             background: var(--dark-bg);
             color: var(--text-primary);
             overflow: hidden;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            position: fixed;
+            /* prevent scroll on mobile */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
         /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
-            width: 3px;
+            width: 2px;
         }
         ::-webkit-scrollbar-track {
             background: transparent;
@@ -69,6 +79,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            will-change: transform;
         }
 
         /* ===== AMBIENT GLOW ORBS ===== */
@@ -78,8 +89,9 @@
             filter: blur(90px);
             pointer-events: none;
             z-index: 0;
-            opacity: 0.35;
+            opacity: 0.30;
             animation: orbFloat 12s ease-in-out infinite alternate;
+            will-change: transform;
         }
         .ambient-orb--1 {
             width: 55vw;
@@ -104,7 +116,7 @@
             left: 55%;
             background: radial-gradient(circle, var(--rose-gold), transparent 70%);
             animation-delay: 8s;
-            opacity: 0.20;
+            opacity: 0.18;
         }
 
         @keyframes orbFloat {
@@ -132,26 +144,36 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px 16px 24px;
-            overflow-y: auto;
+            padding: max(12px, var(--safe-top)) max(12px, 16px) max(16px, var(--safe-bottom));
+            overflow: hidden;
+            /* prevent scroll */;
         }
 
         /* ===== GLASS CARD ===== */
         .glass-card {
             width: 100%;
             max-width: 440px;
+            max-height: 92vh;
             background: var(--card-bg);
             backdrop-filter: blur(24px) saturate(1.4);
             -webkit-backdrop-filter: blur(24px) saturate(1.4);
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 28px 22px 32px;
+            border-radius: clamp(24px, 5vw, 32px);
+            padding: clamp(18px, 3.5vw, 28px) clamp(14px, 3vw, 22px) clamp(20px, 3.5vw, 32px);
             box-shadow:
                 0 20px 60px rgba(0, 0, 0, 0.6),
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
             transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        /* hide scroll on glass card */
+        .glass-card::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
         }
         .glass-card::before {
             content: '';
@@ -167,19 +189,20 @@
         /* ===== HEADER ===== */
         .quiz-header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: clamp(14px, 2.5vw, 24px);
             position: relative;
+            flex-shrink: 0;
         }
 
         .romantic-accent {
             font-family: var(--font-romantic);
-            font-size: 1.3rem;
+            font-size: clamp(1.0rem, 3vw, 1.3rem);
             font-weight: 600;
             color: var(--rose-gold);
             letter-spacing: 0.02em;
             text-shadow: 0 0 30px var(--rose-glow), 0 0 60px rgba(212, 165, 116, 0.10);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             opacity: 0;
             animation: fadeUp 0.8s ease 0.2s forwards;
         }
@@ -187,8 +210,8 @@
         .main-heading {
             font-family: var(--font-heading);
             font-weight: 900;
-            font-size: 2.2rem;
-            letter-spacing: 0.12em;
+            font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+            letter-spacing: 0.10em;
             text-transform: uppercase;
             background: linear-gradient(135deg, #fff 30%, var(--rose-gold) 70%, var(--pink) 100%);
             -webkit-background-clip: text;
@@ -196,7 +219,7 @@
             background-clip: text;
             text-shadow: 0 0 60px rgba(255, 107, 157, 0.15);
             line-height: 1.15;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             opacity: 0;
             animation: fadeUp 0.8s ease 0.35s forwards;
         }
@@ -204,11 +227,12 @@
         .subtitle {
             font-family: var(--font-body);
             font-weight: 300;
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             color: var(--text-secondary);
             letter-spacing: 0.04em;
             opacity: 0;
             animation: fadeUp 0.8s ease 0.5s forwards;
+            line-height: 1.4;
         }
         .subtitle span {
             color: var(--pink);
@@ -230,23 +254,26 @@
         .progress-dots {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 22px;
+            gap: clamp(6px, 1.5vw, 8px);
+            margin-bottom: clamp(14px, 2.5vw, 22px);
             opacity: 0;
             animation: fadeUp 0.6s ease 0.6s forwards;
+            flex-shrink: 0;
+            flex-wrap: wrap;
         }
         .dot {
-            width: 8px;
-            height: 8px;
+            width: clamp(6px, 1.8vw, 8px);
+            height: clamp(6px, 1.8vw, 8px);
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.12);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             box-shadow: none;
+            flex-shrink: 0;
         }
         .dot.active {
             background: var(--pink);
             box-shadow: 0 0 16px var(--pink-glow), 0 0 40px rgba(255, 107, 157, 0.15);
-            width: 24px;
+            width: clamp(18px, 5vw, 24px);
             border-radius: 6px;
         }
         .dot.done {
@@ -256,16 +283,17 @@
 
         /* ===== QUESTION AREA ===== */
         .question-area {
-            min-height: 220px;
+            min-height: clamp(160px, 40vh, 220px);
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
+            flex-shrink: 0;
         }
 
         .question-number {
             font-family: var(--font-body);
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: clamp(0.6rem, 1.6vw, 0.7rem);
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -275,33 +303,35 @@
         .question-text {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: clamp(1.0rem, 3.2vw, 1.2rem);
             line-height: 1.5;
             color: var(--text-primary);
-            margin-bottom: 16px;
-            min-height: 3.2rem;
+            margin-bottom: clamp(10px, 2vw, 16px);
+            min-height: clamp(2.4rem, 8vw, 3.2rem);
             transition: opacity 0.3s ease;
+            word-break: break-word;
         }
 
         /* ===== ANSWER BUTTONS ===== */
         .answers-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: clamp(8px, 1.8vw, 10px);
             margin-top: 2px;
         }
 
         .answer-btn {
-            display: block;
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 16px 20px;
+            padding: clamp(12px, 2.8vw, 16px) clamp(14px, 3vw, 20px);
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            border-radius: clamp(12px, 2.5vw, 16px);
             color: var(--text-primary);
             font-family: var(--font-body);
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: clamp(0.82rem, 2.2vw, 0.95rem);
             text-align: left;
             transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
@@ -312,30 +342,33 @@
             overflow: hidden;
             letter-spacing: 0.01em;
             line-height: 1.3;
+            -webkit-touch-callout: none;
+            min-height: clamp(48px, 10vw, 56px);
         }
         .answer-btn .letter {
-            display: inline-block;
-            width: 26px;
-            height: 26px;
-            line-height: 26px;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: clamp(22px, 5vw, 26px);
+            height: clamp(22px, 5vw, 26px);
+            flex-shrink: 0;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.06);
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: clamp(0.65rem, 1.8vw, 0.75rem);
             color: var(--text-secondary);
-            margin-right: 12px;
-            flex-shrink: 0;
+            margin-right: clamp(10px, 2.5vw, 12px);
             transition: all 0.3s ease;
         }
         .answer-btn .answer-text {
             display: inline;
+            word-break: break-word;
         }
         .answer-btn:active {
             transform: scale(0.97);
         }
-        .answer-btn:hover:not(.disabled) {
-            background: rgba(255, 255, 255, 0.07);
+        .answer-btn:active:not(.disabled) {
+            background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.15);
         }
 
@@ -394,12 +427,12 @@
 
         /* ===== FEEDBACK ===== */
         .feedback {
-            margin-top: 14px;
+            margin-top: clamp(10px, 2vw, 14px);
             font-family: var(--font-body);
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             text-align: center;
-            min-height: 1.8rem;
+            min-height: clamp(1.4rem, 4vw, 1.8rem);
             color: var(--text-secondary);
             transition: opacity 0.3s ease, transform 0.3s ease;
             opacity: 0;
@@ -422,7 +455,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 8px 0 4px;
+            padding: 4px 0 2px;
             animation: fadeUp 0.8s ease forwards;
         }
         .final-screen.active {
@@ -430,8 +463,8 @@
         }
 
         .final-icon {
-            font-size: 3.2rem;
-            margin-bottom: 6px;
+            font-size: clamp(2.4rem, 8vw, 3.2rem);
+            margin-bottom: 4px;
             animation: pulseGlow 2s ease-in-out infinite;
         }
         @keyframes pulseGlow {
@@ -449,22 +482,23 @@
         .final-title {
             font-family: var(--font-heading);
             font-weight: 800;
-            font-size: 1.5rem;
-            letter-spacing: 0.08em;
+            font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+            letter-spacing: 0.06em;
             text-transform: uppercase;
             background: linear-gradient(135deg, #fff, var(--rose-gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            line-height: 1.3;
         }
 
         .final-verifying {
             font-family: var(--font-body);
             font-weight: 300;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2.2vw, 0.9rem);
             color: var(--text-secondary);
-            margin-bottom: 16px;
+            margin-bottom: clamp(12px, 2.5vw, 16px);
             letter-spacing: 0.04em;
         }
         .final-verifying .dots::after {
@@ -492,16 +526,16 @@
         .status-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: clamp(6px, 1.5vw, 10px);
             width: 100%;
             max-width: 340px;
-            margin: 0 auto 18px;
+            margin: 0 auto clamp(12px, 2.5vw, 18px);
         }
         .status-item {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 12px 6px;
+            border-radius: clamp(10px, 2vw, 14px);
+            padding: clamp(8px, 2vw, 12px) clamp(4px, 1vw, 6px);
             transition: all 0.5s ease;
             opacity: 0;
             transform: translateY(10px);
@@ -513,7 +547,7 @@
         .status-item .label {
             font-family: var(--font-body);
             font-weight: 300;
-            font-size: 0.6rem;
+            font-size: clamp(0.5rem, 1.4vw, 0.6rem);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--text-muted);
@@ -523,8 +557,9 @@
         .status-item .value {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 1.0rem;
+            font-size: clamp(0.8rem, 2.4vw, 1.0rem);
             color: var(--text-primary);
+            line-height: 1.2;
         }
         .status-item .value.pink {
             color: var(--pink);
@@ -539,8 +574,8 @@
         .access-granted {
             font-family: var(--font-heading);
             font-weight: 900;
-            font-size: 1.8rem;
-            letter-spacing: 0.1em;
+            font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             background: linear-gradient(135deg, var(--pink), var(--rose-gold), var(--pink));
             background-size: 200% 200%;
@@ -548,10 +583,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: shimmerText 3s ease-in-out infinite;
-            margin: 4px 0 14px;
+            margin: 2px 0 clamp(10px, 2vw, 14px);
             opacity: 0;
             transform: scale(0.92);
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            line-height: 1.2;
         }
         .access-granted.reveal {
             opacity: 1;
@@ -584,17 +620,17 @@
         .claim-btn {
             display: block;
             width: 100%;
-            padding: 18px 20px;
+            padding: clamp(14px, 3.5vw, 18px) clamp(16px, 4vw, 20px);
             background: rgba(255, 107, 157, 0.10);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 107, 157, 0.25);
-            border-radius: 20px;
+            border-radius: clamp(16px, 3vw, 20px);
             color: #fff;
             font-family: var(--font-heading);
             font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: 0.08em;
+            font-size: clamp(1.0rem, 3vw, 1.2rem);
+            letter-spacing: 0.06em;
             text-transform: uppercase;
             text-align: center;
             cursor: pointer;
@@ -608,6 +644,9 @@
                 0 0 80px rgba(255, 107, 157, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.10);
             animation: floatBtn 3s ease-in-out infinite;
+            -webkit-touch-callout: none;
+            user-select: none;
+            min-height: clamp(52px, 11vw, 64px);
         }
         .claim-btn::before {
             content: '';
@@ -647,100 +686,155 @@
             transform: scale(0.96) !important;
             animation: none;
         }
-        .claim-btn:hover {
-            border-color: rgba(255, 107, 157, 0.5);
-            box-shadow:
-                0 0 60px var(--pink-glow),
-                0 0 100px rgba(255, 107, 157, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        .claim-btn:active::before {
+            animation: none;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .glass-card {
-                padding: 22px 16px 26px;
-                border-radius: 24px;
+                padding: 16px 12px 20px;
+                border-radius: 20px;
+                max-height: 94vh;
+            }
+            .quiz-header {
+                margin-bottom: 12px;
             }
             .main-heading {
-                font-size: 1.8rem;
-                letter-spacing: 0.10em;
+                letter-spacing: 0.06em;
             }
-            .romantic-accent {
-                font-size: 1.1rem;
+            .question-area {
+                min-height: 140px;
             }
-            .question-text {
-                font-size: 1.05rem;
-                min-height: 2.8rem;
+            .answers-grid {
+                gap: 6px;
             }
             .answer-btn {
-                padding: 14px 16px;
-                font-size: 0.88rem;
-                border-radius: 14px;
+                padding: 10px 12px;
+                font-size: 0.82rem;
+                min-height: 42px;
+                border-radius: 12px;
             }
             .answer-btn .letter {
-                width: 24px;
-                height: 24px;
-                line-height: 24px;
-                font-size: 0.7rem;
-                margin-right: 10px;
-            }
-            .final-title {
-                font-size: 1.2rem;
-            }
-            .access-granted {
-                font-size: 1.4rem;
+                width: 20px;
+                height: 20px;
+                font-size: 0.6rem;
+                margin-right: 8px;
             }
             .status-grid {
-                gap: 8px;
+                gap: 5px;
             }
             .status-item {
-                padding: 10px 4px;
+                padding: 6px 3px;
+                border-radius: 8px;
             }
             .status-item .value {
-                font-size: 0.85rem;
+                font-size: 0.75rem;
             }
-            .claim-btn {
-                padding: 16px 16px;
+            .status-item .label {
+                font-size: 0.45rem;
+            }
+            .final-title {
                 font-size: 1.0rem;
             }
-            .app-wrapper {
-                padding: 12px 10px 16px;
+            .access-granted {
+                font-size: 1.1rem;
+                margin: 0 0 8px;
+            }
+            .claim-btn {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+                min-height: 44px;
+                border-radius: 14px;
+            }
+            .claim-btn-wrap {
+                max-width: 280px;
+            }
+            .romantic-accent {
+                font-size: 0.9rem;
             }
             .subtitle {
+                font-size: 0.65rem;
+            }
+            .feedback {
                 font-size: 0.75rem;
+                min-height: 1.2rem;
+                margin-top: 6px;
+            }
+            .progress-dots {
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+            .dot {
+                width: 5px;
+                height: 5px;
+            }
+            .dot.active {
+                width: 16px;
+            }
+            .final-verifying {
+                font-size: 0.7rem;
+                margin-bottom: 10px;
+            }
+            .final-icon {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 380px) {
             .glass-card {
-                padding: 18px 12px 20px;
-                border-radius: 20px;
+                padding: 12px 10px 16px;
+                border-radius: 16px;
             }
             .main-heading {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
             .question-text {
-                font-size: 0.95rem;
+                font-size: 0.85rem;
+                min-height: 2rem;
             }
             .answer-btn {
-                padding: 12px 14px;
-                font-size: 0.82rem;
+                padding: 8px 10px;
+                font-size: 0.75rem;
+                min-height: 36px;
+                border-radius: 10px;
+            }
+            .answer-btn .letter {
+                width: 18px;
+                height: 18px;
+                font-size: 0.55rem;
+                margin-right: 6px;
+            }
+            .claim-btn {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+                min-height: 38px;
+            }
+            .access-granted {
+                font-size: 0.95rem;
+            }
+            .final-title {
+                font-size: 0.9rem;
+            }
+            .status-item .value {
+                font-size: 0.65rem;
             }
         }
 
         @media (min-height: 800px) {
             .glass-card {
-                padding: 36px 28px 40px;
+                padding: clamp(28px, 4vw, 36px) clamp(20px, 3.5vw, 28px) clamp(28px, 4vw, 40px);
             }
             .question-area {
-                min-height: 260px;
+                min-height: 220px;
             }
             .question-text {
-                font-size: 1.35rem;
+                font-size: clamp(1.15rem, 2.8vw, 1.35rem);
             }
             .answer-btn {
-                padding: 18px 24px;
-                font-size: 1.0rem;
+                padding: 16px 22px;
+                font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+                min-height: 56px;
             }
         }
 
@@ -762,6 +856,32 @@
             pointer-events: none;
             filter: blur(60px);
             opacity: 0.12;
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .claim-btn {
+                animation: none !important;
+            }
+            .claim-btn::before {
+                animation: none !important;
+            }
+            .final-icon {
+                animation: none !important;
+            }
+            .access-granted {
+                animation: none !important;
+            }
+            .ambient-orb {
+                animation: none !important;
+            }
         }
     </style>
 </head>
@@ -842,7 +962,7 @@
         const QUIZ_DATA = [{
             question: 'What is the biggest thing we gained in these 2 years?',
             options: ['Money', 'Each Other', 'Popularity', 'Followers'],
-            correct: 1, // index
+            correct: 1,
         }, {
             question: 'What helped us stay together despite the distance?',
             options: ['Trust', 'Coincidence', 'Luck', 'Timing'],
@@ -891,12 +1011,18 @@
         const glassCard = document.getElementById('glassCard');
 
         // ============================================================
-        //  PARTICLES (Canvas)
+        //  PARTICLES (Canvas) — optimized for mobile
         // ============================================================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         let animFrame;
+        let isLowPower = false;
+
+        // detect if mobile
+        if (window.innerWidth < 600) {
+            isLowPower = true;
+        }
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -912,13 +1038,13 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.4 + 0.6;
-                this.speedX = (Math.random() - 0.5) * 0.35;
-                this.speedY = (Math.random() - 0.5) * 0.35;
-                this.opacity = Math.random() * 0.35 + 0.08;
-                this.hue = Math.random() < 0.5 ? 340 : 280; // pink or purple
+                this.size = isLowPower ? Math.random() * 1.6 + 0.4 : Math.random() * 2.4 + 0.6;
+                this.speedX = (Math.random() - 0.5) * (isLowPower ? 0.2 : 0.35);
+                this.speedY = (Math.random() - 0.5) * (isLowPower ? 0.2 : 0.35);
+                this.opacity = Math.random() * (isLowPower ? 0.2 : 0.35) + (isLowPower ? 0.05 : 0.08);
+                this.hue = Math.random() < 0.5 ? 340 : 280;
                 this.pulse = Math.random() * Math.PI * 2;
-                this.pulseSpeed = 0.01 + Math.random() * 0.02;
+                this.pulseSpeed = 0.008 + Math.random() * (isLowPower ? 0.01 : 0.02);
             }
             update() {
                 this.x += this.speedX;
@@ -936,30 +1062,30 @@
                     `rgba(155, 89, 182, ${alpha})`;
                 ctx.fillStyle = color;
                 ctx.fill();
-                // soft glow
-                if (this.size > 1.5) {
-                    ctx.shadowColor = this.hue === 340 ? 'rgba(255,107,157,0.2)' : 'rgba(155,89,182,0.2)';
-                    ctx.shadowBlur = 12;
+                if (this.size > 1.2 && !isLowPower) {
+                    ctx.shadowColor = this.hue === 340 ? 'rgba(255,107,157,0.15)' : 'rgba(155,89,182,0.15)';
+                    ctx.shadowBlur = 8;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                 }
             }
         }
 
-        function initParticles(count = 70) {
+        function initParticles(count) {
+            const c = isLowPower ? Math.min(count, 45) : Math.min(count, 70);
             particles = [];
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < c; i++) {
                 particles.push(new Particle());
             }
         }
-        initParticles();
+        initParticles(70);
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
             animFrame = requestAnimationFrame(animateParticles);
         }
         animateParticles();
@@ -988,11 +1114,26 @@
                 const btn = document.createElement('button');
                 btn.className = 'answer-btn';
                 btn.setAttribute('data-index', idx);
+                btn.setAttribute('role', 'button');
+                btn.setAttribute('aria-label', `Option ${LETTERS[idx]}: ${opt}`);
                 btn.innerHTML = `
               <span class="letter">${LETTERS[idx]}</span>
               <span class="answer-text">${opt}</span>
             `;
-                btn.addEventListener('click', () => handleAnswer(idx));
+                // Use both click and touch events for reliability
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleAnswer(idx);
+                });
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    // prevent double-firing
+                    if (!btn.dataset.fired) {
+                        btn.dataset.fired = 'true';
+                        handleAnswer(idx);
+                        setTimeout(() => { delete btn.dataset.fired; }, 300);
+                    }
+                }, { passive: false });
                 answersGrid.appendChild(btn);
             });
 
@@ -1002,6 +1143,11 @@
             isAnswering = false;
 
             renderDots();
+
+            // scroll to top of card on mobile
+            if (window.innerWidth < 600) {
+                glassCard.scrollTop = 0;
+            }
         }
 
         // ============================================================
@@ -1028,13 +1174,16 @@
                 }
             });
 
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                navigator.vibrate(isCorrect ? 10 : 25);
+            }
+
             if (isCorrect) {
-                // Correct → glow & proceed
                 feedback.textContent = '✨ Perfect!';
                 feedback.className = 'feedback show success';
                 feedback.style.opacity = '1';
 
-                // Mark dot as done after transition
                 setTimeout(() => {
                     const dots = progressDots.querySelectorAll('.dot');
                     if (dots[currentIndex]) {
@@ -1046,25 +1195,21 @@
                         currentIndex++;
                         renderQuestion();
                     } else {
-                        // Quiz complete!
                         quizComplete = true;
                         showFinalScreen();
                     }
                 }, 700);
 
             } else {
-                // Wrong → shake + "try again"
                 feedback.textContent = 'Not quite, try again.';
                 feedback.className = 'feedback show error';
                 feedback.style.opacity = '1';
 
-                // Re-enable after shake
                 setTimeout(() => {
                     btns.forEach(b => {
                         b.classList.remove('disabled', 'wrong');
                     });
                     isAnswering = false;
-                    // remove wrong highlight from selected
                     btns.forEach((btn, idx) => {
                         if (idx === selected) {
                             btn.classList.remove('wrong');
@@ -1080,12 +1225,10 @@
         //  FINAL SCREEN
         // ============================================================
         function showFinalScreen() {
-            // Fade out question area
             questionArea.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             questionArea.style.opacity = '0';
             questionArea.style.transform = 'translateY(-10px)';
 
-            // Hide progress dots
             progressDots.style.transition = 'opacity 0.4s ease';
             progressDots.style.opacity = '0';
 
@@ -1093,33 +1236,31 @@
                 questionArea.style.display = 'none';
                 progressDots.style.display = 'none';
 
-                // Show final screen
                 finalScreen.classList.add('active');
 
-                // Animate status items one by one
                 statusItems.forEach((item, idx) => {
                     setTimeout(() => {
                         item.classList.add('reveal');
                     }, 300 + idx * 280);
                 });
 
-                // After statuses, show ACCESS GRANTED
                 setTimeout(() => {
                     accessGranted.classList.add('reveal');
 
-                    // Update the last status (Future Goal)
                     const futureGoal = statusItems[3].querySelector('.value');
                     if (futureGoal) {
                         futureGoal.textContent = 'Together ♡';
                         futureGoal.style.color = 'var(--rose-gold)';
                     }
 
-                    // Show claim button after a moment
                     setTimeout(() => {
                         claimWrap.classList.add('reveal');
                     }, 600);
 
                 }, 300 + statusItems.length * 280 + 300);
+
+                // scroll to top
+                glassCard.scrollTop = 0;
 
             }, 550);
         }
@@ -1127,41 +1268,72 @@
         // ============================================================
         //  CLAIM BUTTON → redirect to gift.html
         // ============================================================
-        claimBtn.addEventListener('click', () => {
-            // Haptic feedback if available
+        claimBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             if (navigator.vibrate) navigator.vibrate(12);
 
-            // Animate click
             claimBtn.style.transform = 'scale(0.94)';
             setTimeout(() => {
                 claimBtn.style.transform = '';
             }, 200);
 
-            // Redirect
             setTimeout(() => {
                 window.location.href = 'gift.html';
             }, 350);
         });
+
+        claimBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (!claimBtn.dataset.fired) {
+                claimBtn.dataset.fired = 'true';
+                if (navigator.vibrate) navigator.vibrate(12);
+                claimBtn.style.transform = 'scale(0.94)';
+                setTimeout(() => {
+                    claimBtn.style.transform = '';
+                }, 200);
+                setTimeout(() => {
+                    window.location.href = 'gift.html';
+                }, 350);
+                setTimeout(() => { delete claimBtn.dataset.fired; }, 400);
+            }
+        }, { passive: false });
 
         // ============================================================
         //  INIT
         // ============================================================
         renderQuestion();
 
-        // Fix for mobile overscroll
+        // Prevent overscroll / bounce on mobile
         document.addEventListener('touchmove', (e) => {
-            if (e.target.closest('.app-wrapper')) return;
-        }, { passive: true });
+            if (e.target.closest('.glass-card')) {
+                const card = e.target.closest('.glass-card');
+                const scrollable = card.scrollHeight > card.clientHeight;
+                if (!scrollable) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
 
-        // Prevent double-tap zoom on buttons
-        document.querySelectorAll('button, .answer-btn').forEach(el => {
-            el.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                el.click();
-            }, { passive: false });
+        // Handle resize to adjust particles
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                resizeCanvas();
+                initParticles(70);
+            }, 300);
         });
 
-        console.log('✨ Final Challenge — Premium Quiz loaded.');
+        // Pause particles when not visible (performance)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (animFrame) cancelAnimationFrame(animFrame);
+            } else {
+                animateParticles();
+            }
+        });
+
+        console.log('✨ Final Challenge — Premium Quiz loaded (mobile-optimized).');
         console.log('❤️ Made with love for the anniversary.');
     </script>
 
