@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Anniversary Archive · Gateway</title>
 
     <!-- Fonts -->
@@ -31,6 +31,8 @@
             justify-content: center;
             color: #fff;
             cursor: default;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         /* ─── Animated Gradient Background ─── */
@@ -144,7 +146,7 @@
             }
         }
 
-        /* ─── Mouse Glow ─── */
+        /* ─── Mouse Glow (hidden on touch devices) ─── */
         #mouse-glow {
             position: fixed;
             z-index: 0;
@@ -156,6 +158,14 @@
             transform: translate(-50%, -50%);
             transition: opacity 0.3s ease;
             will-change: transform;
+            display: none;
+        }
+
+        /* Show mouse glow only on hover-capable devices */
+        @media (hover: hover) and (pointer: fine) {
+            #mouse-glow {
+                display: block;
+            }
         }
 
         /* ─── Page Wrapper ─── */
@@ -171,6 +181,7 @@
             align-items: center;
             justify-content: center;
             animation: pageFadeIn 1.4s ease-out forwards;
+            -webkit-overflow-scrolling: touch;
         }
 
         @keyframes pageFadeIn {
@@ -189,11 +200,12 @@
             text-align: center;
             margin-bottom: 2.8rem;
             width: 100%;
+            padding: 0 0.5rem;
         }
 
         .romantic-script {
             font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: clamp(0.85rem, 1.4vw, 1.2rem);
+            font-size: clamp(0.75rem, 1.4vw, 1.2rem);
             font-weight: 400;
             font-style: italic;
             letter-spacing: 0.25em;
@@ -205,8 +217,8 @@
         .main-title {
             font-family: 'Lemon Milk', 'Playfair Display', serif;
             font-weight: 700;
-            font-size: clamp(2.6rem, 9vw, 5.6rem);
-            letter-spacing: 0.08em;
+            font-size: clamp(2.2rem, 9vw, 5.6rem);
+            letter-spacing: 0.06em;
             background: linear-gradient(135deg, #f0d0e0, #e8b8d0, #d4b0d4, #e8b8d0, #f0d0e0);
             background-size: 300% 300%;
             -webkit-background-clip: text;
@@ -215,6 +227,7 @@
             animation: shimmerTitle 8s ease-in-out infinite alternate;
             line-height: 1.05;
             text-shadow: 0 0 80px rgba(200, 140, 180, 0.08);
+            word-break: break-word;
         }
 
         @keyframes shimmerTitle {
@@ -229,14 +242,15 @@
         .subheading {
             font-family: 'Inter', sans-serif;
             font-weight: 300;
-            font-size: clamp(0.85rem, 1.3vw, 1.15rem);
-            letter-spacing: 0.15em;
+            font-size: clamp(0.75rem, 1.3vw, 1.15rem);
+            letter-spacing: 0.12em;
             color: rgba(255, 255, 255, 0.45);
             margin-top: 0.7rem;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.6;
+            padding: 0 0.25rem;
         }
 
         /* ─── Glass Card ─── */
@@ -256,6 +270,7 @@
                 0 0 80px rgba(200, 140, 180, 0.04);
             transition: box-shadow 0.6s ease, border-color 0.6s ease;
             text-align: center;
+            margin: 0 0.5rem;
         }
 
         .glass-card::before {
@@ -298,6 +313,7 @@
             border: 1px solid rgba(200, 160, 190, 0.08);
             box-shadow: 0 0 50px rgba(200, 140, 180, 0.02);
             transition: all 0.5s ease;
+            flex-shrink: 0;
         }
 
         .lock-icon-wrap svg {
@@ -343,7 +359,7 @@
             width: 100%;
             padding: 1rem 1.4rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
+            font-size: clamp(0.9rem, 2vw, 0.95rem);
             font-weight: 400;
             letter-spacing: 0.06em;
             color: #fff;
@@ -353,6 +369,11 @@
             outline: none;
             transition: all 0.4s ease;
             caret-color: rgba(200, 170, 190, 0.6);
+            -webkit-appearance: none;
+            appearance: none;
+            min-height: 54px;
+            font-size: 16px;
+            /* Prevents zoom on iOS */;
         }
 
         .password-input::placeholder {
@@ -409,7 +430,7 @@
             margin-top: 1.4rem;
             padding: 1rem 1.4rem;
             font-family: 'Lemon Milk', 'Playfair Display', serif;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 1.2vw, 0.8rem);
             font-weight: 600;
             letter-spacing: 0.2em;
             text-transform: uppercase;
@@ -422,6 +443,9 @@
             position: relative;
             overflow: hidden;
             text-shadow: 0 0 30px rgba(200, 160, 190, 0.05);
+            min-height: 54px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .unlock-btn::before {
@@ -459,12 +483,9 @@
             color: #fff;
         }
 
-        .unlock-btn:hover::after {
-            opacity: 1;
-        }
-
         .unlock-btn:active {
-            transform: scale(0.97) translateY(0);
+            transform: scale(0.96) translateY(0);
+            transition-duration: 0.08s;
         }
 
         .unlock-btn:disabled {
@@ -481,10 +502,11 @@
             align-items: center;
             justify-content: center;
             font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
             font-weight: 400;
             letter-spacing: 0.04em;
             transition: all 0.5s ease;
+            padding: 0 0.25rem;
         }
 
         .message-area.error {
@@ -528,12 +550,14 @@
         .footer {
             margin-top: 3rem;
             font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+            font-size: clamp(0.65rem, 0.9vw, 0.85rem);
             font-style: italic;
             letter-spacing: 0.08em;
             color: rgba(255, 255, 255, 0.15);
             text-align: center;
             transition: color 0.4s ease;
+            padding: 0 0.5rem;
+            touch-action: manipulation;
         }
 
         .footer:hover {
@@ -541,62 +565,270 @@
         }
 
         /* ─── Responsive ─── */
+
+        /* Large phones & small tablets */
         @media (max-width: 640px) {
             .page-wrapper {
-                padding: 1rem;
+                padding: 0.75rem;
                 justify-content: center;
+                min-height: 100dvh;
             }
+
             .glass-card {
-                padding: 2rem 1.4rem 1.8rem;
+                padding: 1.8rem 1.2rem 1.6rem;
                 border-radius: 22px;
+                margin: 0;
+                max-width: 100%;
             }
+
             .lock-icon-wrap {
                 width: 54px;
                 height: 54px;
+                margin-bottom: 1.2rem;
             }
+
             .lock-icon-wrap svg {
                 width: 26px;
                 height: 26px;
             }
+
             .password-input {
-                font-size: 0.9rem;
                 padding: 0.85rem 1.2rem;
+                min-height: 50px;
+                font-size: 16px;
+                /* Prevents zoom */;
             }
+
             .unlock-btn {
-                font-size: 0.7rem;
                 padding: 0.85rem 1.2rem;
+                min-height: 50px;
+                font-size: 0.7rem;
             }
+
             .header-content {
-                margin-bottom: 2rem;
+                margin-bottom: 1.8rem;
             }
+
             .romantic-script {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 letter-spacing: 0.2em;
             }
-            #mouse-glow {
-                width: 300px;
-                height: 300px;
-            }
-        }
 
-        @media (max-width: 380px) {
-            .glass-card {
-                padding: 1.6rem 1rem 1.4rem;
-            }
-            .main-title {
-                font-size: 2rem;
-            }
             .subheading {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
+                letter-spacing: 0.1em;
+                margin-top: 0.5rem;
             }
-            .password-label {
+
+            #mouse-glow {
+                display: none !important;
+            }
+
+            .message-area {
+                min-height: 2.4rem;
+                margin-top: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .footer {
+                margin-top: 2rem;
                 font-size: 0.6rem;
             }
         }
 
-        @media (min-height: 900px) {
+        /* Small phones */
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 1.4rem 0.9rem 1.2rem;
+                border-radius: 18px;
+            }
+
+            .main-title {
+                font-size: 1.8rem;
+                letter-spacing: 0.04em;
+            }
+
+            .subheading {
+                font-size: 0.65rem;
+            }
+
+            .password-label {
+                font-size: 0.55rem;
+            }
+
+            .lock-icon-wrap {
+                width: 46px;
+                height: 46px;
+                margin-bottom: 1rem;
+            }
+
+            .lock-icon-wrap svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .password-input {
+                padding: 0.7rem 1rem;
+                min-height: 44px;
+                font-size: 15px;
+                border-radius: 12px;
+            }
+
+            .unlock-btn {
+                padding: 0.7rem 1rem;
+                min-height: 44px;
+                font-size: 0.6rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+            }
+
+            .message-area {
+                min-height: 2rem;
+                margin-top: 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .header-content {
+                margin-bottom: 1.4rem;
+            }
+
+            .romantic-script {
+                font-size: 0.6rem;
+            }
+
+            .footer {
+                margin-top: 1.6rem;
+                font-size: 0.55rem;
+            }
+        }
+
+        /* Very small screens (below 340px) */
+        @media (max-width: 340px) {
+            .glass-card {
+                padding: 1rem 0.6rem 1rem;
+                border-radius: 16px;
+            }
+
+            .main-title {
+                font-size: 1.5rem;
+            }
+
+            .lock-icon-wrap {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 0.8rem;
+            }
+
+            .lock-icon-wrap svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .password-input {
+                padding: 0.6rem 0.8rem;
+                min-height: 40px;
+                font-size: 14px;
+            }
+
+            .unlock-btn {
+                padding: 0.6rem 0.8rem;
+                min-height: 40px;
+                font-size: 0.55rem;
+            }
+
+            .message-area {
+                min-height: 1.8rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Landscape phones */
+        @media (max-height: 600px) and (orientation: landscape) {
             .page-wrapper {
-                min-height: 100vh;
+                padding: 0.5rem 1rem;
+                min-height: 100dvh;
+                justify-content: center;
+            }
+
+            .header-content {
+                margin-bottom: 0.8rem;
+            }
+
+            .romantic-script {
+                font-size: 0.5rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .main-title {
+                font-size: 1.6rem;
+            }
+
+            .subheading {
+                font-size: 0.55rem;
+                margin-top: 0.2rem;
+            }
+
+            .glass-card {
+                padding: 1rem 1.2rem 0.8rem;
+                border-radius: 16px;
+                max-width: 380px;
+            }
+
+            .lock-icon-wrap {
+                width: 38px;
+                height: 38px;
+                margin-bottom: 0.6rem;
+            }
+
+            .lock-icon-wrap svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .password-label {
+                font-size: 0.5rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .password-input {
+                padding: 0.5rem 1rem;
+                min-height: 38px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            .unlock-btn {
+                padding: 0.5rem 1rem;
+                min-height: 38px;
+                font-size: 0.55rem;
+                margin-top: 0.8rem;
+                border-radius: 10px;
+            }
+
+            .message-area {
+                min-height: 1.6rem;
+                margin-top: 0.6rem;
+                font-size: 0.7rem;
+            }
+
+            .footer {
+                margin-top: 1rem;
+                font-size: 0.5rem;
+            }
+
+            #particles-container .particle {
+                animation-duration: 12s !important;
+                /* Faster for landscape */;
+            }
+        }
+
+        /* Tall screens (notch phones) */
+        @supports (padding: max(0px)) {
+            .page-wrapper {
+                padding-left: max(1.5rem, env(safe-area-inset-left));
+                padding-right: max(1.5rem, env(safe-area-inset-right));
+                padding-top: max(1.5rem, env(safe-area-inset-top));
+                padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
             }
         }
 
@@ -627,6 +859,13 @@
             }
             #mouse-glow {
                 display: none !important;
+            }
+        }
+
+        /* ─── Dark mode safe ─── */
+        @media (prefers-color-scheme: dark) {
+            .bg-canvas {
+                background: radial-gradient(ellipse at 20% 30%, #2d1528, #120b12 50%, #0a060a 80%);
             }
         }
     </style>
@@ -676,6 +915,7 @@
                 placeholder="Secret Code"
                 autocomplete="off"
                 aria-label="Enter your secret access code"
+                inputmode="text"
                 />
             </div>
 
@@ -712,10 +952,20 @@
             let isUnlocked = false;
             let redirectTimer = null;
 
+            // ─── Detect touch device ──────────────────────────────────────
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const isMobile = window.innerWidth < 768 || isTouchDevice;
+
             // ─── Particles ──────────────────────────────────────────────
             function createParticles() {
                 const container = document.getElementById('particles-container');
                 if (!container) return;
+
+                // Fewer particles on mobile for performance
+                const isMobileDevice = window.innerWidth < 640 || isTouchDevice;
+                const count = isMobileDevice ?
+                    Math.min(18, Math.floor(window.innerWidth / 40) + 8) :
+                    Math.min(45, Math.floor(window.innerWidth / 28) + 20);
 
                 const types = ['circle', 'circle', 'circle', 'heart'];
                 const colors = [
@@ -725,8 +975,6 @@
                     'rgba(160,130,180,0.08)',
                 ];
 
-                const count = Math.min(45, Math.floor(window.innerWidth / 28) + 20);
-
                 for (let i = 0; i < count; i++) {
                     const type = types[i % types.length];
                     const el = document.createElement('span');
@@ -735,10 +983,11 @@
                         el.className = 'particle heart';
                         el.textContent = ['♥', '♡', '♥', '♡'][i % 4];
                         el.style.color = colors[i % colors.length];
-                        el.style.fontSize = (10 + Math.random() * 14) + 'px';
+                        const size = isMobileDevice ? 6 + Math.random() * 10 : 10 + Math.random() * 14;
+                        el.style.fontSize = size + 'px';
                     } else {
                         el.className = 'particle';
-                        const size = 2 + Math.random() * 5;
+                        const size = isMobileDevice ? 1.5 + Math.random() * 3 : 2 + Math.random() * 5;
                         el.style.width = size + 'px';
                         el.style.height = size + 'px';
                         el.style.background = colors[i % colors.length];
@@ -747,7 +996,10 @@
                     }
 
                     el.style.left = (Math.random() * 100) + '%';
-                    el.style.animationDuration = (18 + Math.random() * 28) + 's';
+                    const duration = isMobileDevice ?
+                        (14 + Math.random() * 20) + 's' :
+                        (18 + Math.random() * 28) + 's';
+                    el.style.animationDuration = duration;
                     el.style.animationDelay = (Math.random() * 30) + 's';
                     el.style.opacity = 0;
 
@@ -757,7 +1009,7 @@
 
             // ─── Mouse Glow ─────────────────────────────────────────────
             function handleMouseMove(e) {
-                if (!mouseGlow) return;
+                if (!mouseGlow || isTouchDevice) return;
                 const x = e.clientX || e.pageX || 0;
                 const y = e.clientY || e.pageY || 0;
                 mouseGlow.style.left = x + 'px';
@@ -790,13 +1042,15 @@
                 resetInputState();
                 passwordInput.classList.add('error');
                 setMessage('Access Denied. Try Again.', 'error');
-                // Shake card slightly
+                // Shake card
                 glassCard.style.animation = 'none';
                 void glassCard.offsetHeight;
                 glassCard.style.animation = 'shakeInput 0.5s ease forwards';
                 setTimeout(() => {
                     glassCard.style.animation = '';
                 }, 550);
+                // Haptic feedback if available
+                if (navigator.vibrate) navigator.vibrate(20);
             }
 
             function showSuccess() {
@@ -805,7 +1059,6 @@
                 glassCard.classList.add('success-state');
                 setMessage('Access Granted ❤️', 'success');
 
-                // Add heart pulse to message
                 const msgSpan = messageArea.querySelector('span');
                 if (msgSpan) {
                     const heartIdx = msgSpan.textContent.indexOf('❤️');
@@ -815,12 +1068,12 @@
                     }
                 }
 
-                // Disable input and button
                 passwordInput.disabled = true;
                 unlockBtn.disabled = true;
                 isUnlocked = true;
 
-                // Redirect after 2s
+                if (navigator.vibrate) navigator.vibrate([10, 50, 10]);
+
                 if (redirectTimer) clearTimeout(redirectTimer);
                 redirectTimer = setTimeout(function() {
                     window.location.href = 'path.html';
@@ -836,6 +1089,7 @@
                 if (!entered) {
                     setMessage('Please enter the access code.', 'error');
                     passwordInput.classList.add('error');
+                    if (navigator.vibrate) navigator.vibrate(10);
                     setTimeout(() => {
                         passwordInput.classList.remove('error');
                         if (!isUnlocked) clearMessage();
@@ -852,10 +1106,11 @@
 
             // ─── Event Listeners ─────────────────────────────────────────
 
-            // Unlock button
-            unlockBtn.addEventListener('click', attemptUnlock);
+            unlockBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                attemptUnlock();
+            });
 
-            // Enter key on input
             passwordInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -863,7 +1118,6 @@
                 }
             });
 
-            // Clear error state on input
             passwordInput.addEventListener('input', function() {
                 if (isUnlocked) return;
                 if (passwordInput.classList.contains('error')) {
@@ -873,17 +1127,30 @@
                 glassCard.style.animation = '';
             });
 
-            // Mouse glow
-            document.addEventListener('mousemove', handleMouseMove);
+            // Touch feedback for button
+            unlockBtn.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.96)';
+            }, { passive: true });
+
+            unlockBtn.addEventListener('touchend', function() {
+                this.style.transform = '';
+            }, { passive: true });
+
+            // Mouse glow only on non-touch devices
+            if (!isTouchDevice) {
+                document.addEventListener('mousemove', handleMouseMove);
+            }
 
             // ─── Init ─────────────────────────────────────────────────────
 
             createParticles();
 
-            // Focus input after a moment
-            setTimeout(() => {
-                passwordInput.focus();
-            }, 900);
+            // Focus input after a moment (but not on mobile to avoid keyboard popup)
+            if (!isTouchDevice) {
+                setTimeout(() => {
+                    passwordInput.focus();
+                }, 900);
+            }
 
             // ─── Handle resize ──────────────────────────────────────────
             let resizeTimeout;
@@ -893,7 +1160,11 @@
                     const container = document.getElementById('particles-container');
                     if (container) {
                         const current = container.querySelectorAll('.particle').length;
-                        const desired = Math.min(45, Math.floor(window.innerWidth / 28) + 20);
+                        const isMobileDevice = window.innerWidth < 640 || isTouchDevice;
+                        const desired = isMobileDevice ?
+                            Math.min(18, Math.floor(window.innerWidth / 40) + 8) :
+                            Math.min(45, Math.floor(window.innerWidth / 28) + 20);
+
                         if (current < desired && current < 50) {
                             const types = ['circle', 'circle', 'circle', 'heart'];
                             const colors = [
@@ -902,7 +1173,7 @@
                                 'rgba(220,180,200,0.12)',
                                 'rgba(160,130,180,0.08)',
                             ];
-                            const toAdd = Math.min(10, desired - current);
+                            const toAdd = Math.min(6, desired - current);
                             for (let i = 0; i < toAdd; i++) {
                                 const idx = (current + i) % types.length;
                                 const type = types[idx];
@@ -911,10 +1182,11 @@
                                     el.className = 'particle heart';
                                     el.textContent = ['♥', '♡', '♥', '♡'][(current + i) % 4];
                                     el.style.color = colors[idx % colors.length];
-                                    el.style.fontSize = (10 + Math.random() * 14) + 'px';
+                                    const size = isMobileDevice ? 6 + Math.random() * 10 : 10 + Math.random() * 14;
+                                    el.style.fontSize = size + 'px';
                                 } else {
                                     el.className = 'particle';
-                                    const size = 2 + Math.random() * 5;
+                                    const size = isMobileDevice ? 1.5 + Math.random() * 3 : 2 + Math.random() * 5;
                                     el.style.width = size + 'px';
                                     el.style.height = size + 'px';
                                     el.style.background = colors[idx % colors.length];
@@ -922,22 +1194,25 @@
                                     el.style.boxShadow = `0 0 ${size * 2}px ${colors[idx % colors.length]}`;
                                 }
                                 el.style.left = (Math.random() * 100) + '%';
-                                el.style.animationDuration = (18 + Math.random() * 28) + 's';
+                                const duration = isMobileDevice ?
+                                    (14 + Math.random() * 20) + 's' :
+                                    (18 + Math.random() * 28) + 's';
+                                el.style.animationDuration = duration;
                                 el.style.animationDelay = (Math.random() * 30) + 's';
                                 el.style.opacity = 0;
                                 container.appendChild(el);
                             }
                         }
                     }
-                }, 500);
+                }, 400);
             });
 
-            // ─── Prevent context menu (polish) ──────────────────────────
+            // ─── Prevent context menu ──────────────────────────────────
             glassCard.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
             });
 
-            console.log('🔐 Anniversary Archive · Gateway ready');
+            console.log('🔐 Anniversary Archive · Gateway ready (mobile optimized)');
             console.log('📅 Enter the secret code to unlock.');
 
         })();
