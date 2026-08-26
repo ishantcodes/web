@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>🎁 Anniversary Gift · Navya ❤️</title>
 
     <!-- Fonts -->
@@ -22,6 +22,7 @@
         html {
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -31,10 +32,12 @@
             overflow-x: hidden;
             min-height: 100vh;
             min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         ::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         ::-webkit-scrollbar-track {
             background: #1a1215;
@@ -84,6 +87,7 @@
             filter: blur(80px);
             opacity: 0.3;
             animation: orbFloat 18s ease-in-out infinite alternate;
+            will-change: transform;
         }
 
         .bg-canvas .orb:nth-child(1) {
@@ -135,7 +139,7 @@
             inset: 0;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         /* ─── SPARKLE OVERLAY ─── */
@@ -156,7 +160,7 @@
             z-index: 10;
             max-width: 520px;
             margin: 0 auto;
-            padding: 20px 18px 60px;
+            padding: 16px 14px 50px;
             min-height: 100vh;
             min-height: 100dvh;
         }
@@ -173,6 +177,7 @@
             background: #0a0808;
             transition: opacity 2.2s ease, visibility 2.2s ease;
             pointer-events: none;
+            padding: 24px;
         }
 
         #opening-screen.hidden {
@@ -182,9 +187,9 @@
 
         #opening-screen .unlock-text {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(1.6rem, 6vw, 2.8rem);
+            font-size: clamp(1.2rem, 5.5vw, 2.8rem);
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.10em;
             background: linear-gradient(135deg, #f5e6e8 0%, #d4a0b0 40%, #e8c4d0 70%, #f5e6e8 100%);
             background-size: 300% 300%;
             -webkit-background-clip: text;
@@ -192,15 +197,16 @@
             background-clip: text;
             animation: glowPulse 3s ease-in-out infinite, shimmerGrad 6s ease-in-out infinite;
             text-align: center;
-            padding: 0 16px;
+            padding: 0 8px;
             text-shadow: 0 0 60px rgba(212, 160, 176, 0.2);
+            line-height: 1.2;
         }
 
         #opening-screen .sub-glow {
-            margin-top: 18px;
-            font-size: clamp(0.85rem, 2vw, 1.1rem);
+            margin-top: 14px;
+            font-size: clamp(0.7rem, 1.8vw, 1.1rem);
             color: rgba(245, 230, 232, 0.5);
-            letter-spacing: 0.3em;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
             font-family: 'DM Serif Display', serif;
             animation: fadePulse 2.8s ease-in-out infinite;
@@ -238,7 +244,7 @@
             }
         }
 
-        /* ─── FLOATING HEARTS (opening) ─── */
+        /* ─── FLOATING HEARTS ─── */
         .floating-hearts {
             position: fixed;
             inset: 0;
@@ -259,52 +265,52 @@
         .floating-hearts .heart:nth-child(1) {
             left: 8%;
             animation-delay: 0s;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         .floating-hearts .heart:nth-child(2) {
             left: 22%;
             animation-delay: 2.4s;
-            font-size: 1.0rem;
+            font-size: 0.9rem;
         }
         .floating-hearts .heart:nth-child(3) {
             left: 38%;
             animation-delay: 4.8s;
-            font-size: 2.0rem;
+            font-size: 1.8rem;
         }
         .floating-hearts .heart:nth-child(4) {
             left: 55%;
             animation-delay: 1.2s;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
         .floating-hearts .heart:nth-child(5) {
             left: 70%;
             animation-delay: 3.6s;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
         .floating-hearts .heart:nth-child(6) {
             left: 85%;
             animation-delay: 6.0s;
-            font-size: 1.2rem;
+            font-size: 1.0rem;
         }
         .floating-hearts .heart:nth-child(7) {
             left: 48%;
             animation-delay: 7.2s;
-            font-size: 2.4rem;
+            font-size: 2.0rem;
         }
         .floating-hearts .heart:nth-child(8) {
             left: 15%;
             animation-delay: 9.0s;
-            font-size: 1.0rem;
+            font-size: 0.9rem;
         }
         .floating-hearts .heart:nth-child(9) {
             left: 62%;
             animation-delay: 10.2s;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         .floating-hearts .heart:nth-child(10) {
             left: 92%;
             animation-delay: 3.0s;
-            font-size: 1.2rem;
+            font-size: 1.0rem;
         }
 
         @keyframes heartRise {
@@ -313,10 +319,10 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.6;
+                opacity: 0.5;
             }
             90% {
-                opacity: 0.6;
+                opacity: 0.5;
             }
             100% {
                 transform: translateY(-20vh) scale(1.2) rotate(360deg);
@@ -327,9 +333,9 @@
         /* ─── SECTIONS ─── */
         .section {
             position: relative;
-            margin-bottom: 48px;
-            padding: 32px 24px;
-            border-radius: 32px;
+            margin-bottom: 36px;
+            padding: 24px 18px;
+            border-radius: 28px;
             background: rgba(255, 245, 248, 0.03);
             backdrop-filter: blur(12px) saturate(1.1);
             -webkit-backdrop-filter: blur(12px) saturate(1.1);
@@ -338,6 +344,7 @@
             transition: opacity 0.8s ease, transform 0.8s ease;
             opacity: 0;
             transform: translateY(30px);
+            will-change: opacity, transform;
         }
 
         .section.visible {
@@ -347,14 +354,14 @@
 
         .section-title {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(0.85rem, 2.2vw, 1.2rem);
+            font-size: clamp(0.7rem, 2vw, 1.1rem);
             text-transform: uppercase;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.15em;
             color: #d4a0b0;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .section-title span {
@@ -364,7 +371,7 @@
         /* ─── SECTION 1: CONGRATS ─── */
         #section-1 .big-congrats {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            font-size: clamp(1.5rem, 5.5vw, 2.8rem);
             text-transform: uppercase;
             letter-spacing: 0.04em;
             background: linear-gradient(135deg, #f5e6e8, #d4a0b0, #e8c4d0);
@@ -376,9 +383,9 @@
         }
 
         #section-1 .sub-line {
-            font-size: clamp(1.0rem, 2.8vw, 1.4rem);
+            font-size: clamp(0.9rem, 2.5vw, 1.4rem);
             color: rgba(245, 230, 232, 0.7);
-            margin-top: 10px;
+            margin-top: 8px;
             font-family: 'DM Serif Display', serif;
             font-style: italic;
         }
@@ -406,7 +413,7 @@
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.7s ease, transform 0.7s ease;
-            font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+            font-size: clamp(0.85rem, 2.2vw, 1.15rem);
             line-height: 1.8;
             color: rgba(245, 230, 232, 0.85);
             font-family: 'DM Serif Display', serif;
@@ -420,14 +427,14 @@
         #section-2 .story-line .date-badge {
             display: inline-block;
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+            font-size: clamp(0.65rem, 1.6vw, 0.9rem);
             letter-spacing: 0.06em;
             color: #d4a0b0;
             background: rgba(212, 160, 176, 0.08);
-            padding: 2px 14px;
+            padding: 2px 12px;
             border-radius: 40px;
             border: 1px solid rgba(212, 160, 176, 0.12);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         #section-2 .story-line .emphasis {
@@ -442,7 +449,7 @@
             opacity: 0;
             transform: translateX(-6px);
             transition: opacity 0.6s ease, transform 0.6s ease;
-            font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+            font-size: clamp(0.85rem, 2.2vw, 1.15rem);
             line-height: 1.9;
             color: rgba(245, 230, 232, 0.85);
             font-family: 'DM Serif Display', serif;
@@ -481,15 +488,16 @@
         .checklist-item {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 12px 0;
+            gap: 12px;
+            padding: 10px 6px;
             border-bottom: 1px solid rgba(255, 215, 225, 0.04);
             opacity: 0;
             transform: translateX(-10px);
             transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease;
             border-radius: 8px;
-            padding-left: 8px;
             cursor: default;
+            min-height: 48px;
+            touch-action: manipulation;
         }
 
         .checklist-item.revealed {
@@ -497,20 +505,20 @@
             transform: translateX(0);
         }
 
-        .checklist-item:hover {
-            background: rgba(212, 160, 176, 0.04);
+        .checklist-item:active {
+            background: rgba(212, 160, 176, 0.06);
         }
 
         .checklist-item .box {
             flex-shrink: 0;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border: 2px solid rgba(212, 160, 176, 0.25);
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             color: transparent;
             transition: all 0.4s ease;
             background: rgba(255, 245, 248, 0.02);
@@ -525,7 +533,7 @@
 
         .checklist-item .label {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+            font-size: clamp(0.8rem, 2vw, 1.05rem);
             color: rgba(245, 230, 232, 0.8);
             transition: color 0.4s ease;
         }
@@ -536,7 +544,7 @@
 
         /* ─── SECTION 5: REAL GIFT ─── */
         #section-5 .gift-text {
-            font-size: clamp(1.0rem, 2.6vw, 1.3rem);
+            font-size: clamp(0.9rem, 2.4vw, 1.3rem);
             line-height: 1.9;
             color: rgba(245, 230, 232, 0.8);
             font-family: 'DM Serif Display', serif;
@@ -553,7 +561,7 @@
             border-color: rgba(212, 160, 176, 0.15);
             box-shadow: 0 0 80px rgba(212, 160, 176, 0.04), inset 0 0 60px rgba(212, 160, 176, 0.02);
             text-align: center;
-            padding: 40px 24px 44px;
+            padding: 32px 18px 36px;
             position: relative;
             overflow: visible;
         }
@@ -562,7 +570,7 @@
             content: '';
             position: absolute;
             inset: -2px;
-            border-radius: 34px;
+            border-radius: 30px;
             padding: 2px;
             background: linear-gradient(135deg, rgba(212, 160, 176, 0.15), rgba(176, 136, 184, 0.05), rgba(212, 160, 176, 0.15));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -574,7 +582,7 @@
 
         #section-6 .answer-heading {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(2.0rem, 7vw, 3.2rem);
+            font-size: clamp(1.6rem, 6.5vw, 3.2rem);
             text-transform: uppercase;
             letter-spacing: 0.06em;
             background: linear-gradient(135deg, #f5e6e8, #d4a0b0, #e8c4d0, #f5e6e8);
@@ -590,10 +598,10 @@
 
         #section-6 .answer-sub {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            font-size: clamp(1.0rem, 2.8vw, 1.6rem);
             font-style: italic;
             color: rgba(245, 230, 232, 0.7);
-            margin-top: 12px;
+            margin-top: 10px;
             line-height: 1.6;
         }
 
@@ -605,8 +613,8 @@
 
         #section-6 .answer-heart-pulse {
             display: inline-block;
-            font-size: clamp(2.8rem, 10vw, 4.8rem);
-            margin-top: 8px;
+            font-size: clamp(2.4rem, 9vw, 4.8rem);
+            margin-top: 6px;
             animation: heartPulse 1.8s ease-in-out infinite;
             filter: drop-shadow(0 0 40px rgba(212, 160, 176, 0.15));
         }
@@ -632,43 +640,44 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 16px 28px;
-            margin: 28px 0 10px;
-            padding: 24px 0;
+            gap: 12px 20px;
+            margin: 24px 0 8px;
+            padding: 18px 0;
             border-top: 1px solid rgba(255, 215, 225, 0.06);
             border-bottom: 1px solid rgba(255, 215, 225, 0.06);
         }
 
         .final-stats .stat {
             text-align: center;
+            min-width: 60px;
         }
 
         .final-stats .stat .number {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(1.2rem, 3.2vw, 1.8rem);
+            font-size: clamp(1.0rem, 2.8vw, 1.8rem);
             color: #d4a0b0;
             letter-spacing: 0.04em;
         }
 
         .final-stats .stat .label {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(0.65rem, 1.6vw, 0.8rem);
+            font-size: clamp(0.55rem, 1.4vw, 0.8rem);
             color: rgba(245, 230, 232, 0.4);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             margin-top: 2px;
         }
 
         /* ─── FINAL MESSAGE ─── */
         .final-message {
             text-align: center;
-            margin-top: 28px;
-            padding: 28px 16px 20px;
+            margin-top: 24px;
+            padding: 24px 12px 16px;
         }
 
         .final-message .big-anniversary {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(1.2rem, 4vw, 2.0rem);
+            font-size: clamp(1.0rem, 3.6vw, 2.0rem);
             text-transform: uppercase;
             letter-spacing: 0.06em;
             background: linear-gradient(135deg, #f5e6e8, #d4a0b0);
@@ -680,16 +689,16 @@
 
         .final-message .love-line {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(1.4rem, 4.5vw, 2.4rem);
+            font-size: clamp(1.2rem, 4vw, 2.4rem);
             font-style: italic;
             color: rgba(245, 230, 232, 0.5);
-            margin-top: 6px;
+            margin-top: 4px;
             letter-spacing: 0.04em;
         }
 
         .final-message .name-glow {
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
-            font-size: clamp(2.2rem, 8vw, 4.0rem);
+            font-size: clamp(1.8rem, 7vw, 4.0rem);
             text-transform: uppercase;
             letter-spacing: 0.08em;
             background: linear-gradient(135deg, #f5e6e8 0%, #d4a0b0 40%, #e8c4d0 70%, #f5e6e8 100%);
@@ -699,12 +708,12 @@
             background-clip: text;
             animation: shimmerGrad 5s ease-in-out infinite;
             text-shadow: 0 0 60px rgba(212, 160, 176, 0.10);
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .final-message .kiss-line {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-size: clamp(1.4rem, 4.5vw, 2.8rem);
             font-style: italic;
             color: rgba(245, 230, 232, 0.3);
             letter-spacing: 0.08em;
@@ -741,22 +750,50 @@
         /* ─── RESPONSIVE TWEAKS ─── */
         @media (max-width: 400px) {
             .main-wrapper {
-                padding: 12px 10px 40px;
+                padding: 10px 8px 36px;
             }
             .section {
-                padding: 24px 16px;
-                margin-bottom: 32px;
-                border-radius: 24px;
+                padding: 18px 14px;
+                margin-bottom: 28px;
+                border-radius: 22px;
             }
             #section-6 {
-                padding: 28px 16px 32px;
+                padding: 24px 14px 28px;
             }
             .checklist-item {
-                padding: 10px 0;
+                padding: 8px 4px;
+                min-height: 42px;
+                gap: 10px;
+            }
+            .checklist-item .box {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
             }
             .final-stats {
-                gap: 12px 16px;
-                padding: 18px 0;
+                gap: 8px 14px;
+                padding: 14px 0;
+            }
+            #opening-screen .unlock-text {
+                font-size: clamp(1.0rem, 4.5vw, 1.6rem);
+                letter-spacing: 0.08em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section {
+                padding: 16px 12px;
+                margin-bottom: 24px;
+                border-radius: 18px;
+            }
+            #section-6 {
+                padding: 20px 12px 24px;
+            }
+            .final-stats .stat .number {
+                font-size: clamp(0.8rem, 2.4vw, 1.2rem);
+            }
+            .final-stats .stat .label {
+                font-size: clamp(0.45rem, 1.2vw, 0.6rem);
             }
         }
 
@@ -830,9 +867,9 @@
         /* ─── SCROLL INDICATOR ─── */
         .scroll-hint {
             text-align: center;
-            padding: 8px 0 24px;
-            font-size: 0.7rem;
-            color: rgba(245, 230, 232, 0.15);
+            padding: 6px 0 18px;
+            font-size: 0.6rem;
+            color: rgba(245, 230, 232, 0.12);
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-family: 'LEMON MILK', 'DM Serif Display', serif;
@@ -875,6 +912,31 @@
         /* ─── SECTION VISIBILITY ANIMATION ─── */
         .section {
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ─── REDUCED MOTION ─── */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .section {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .typewriter-line,
+            .story-line,
+            .letter-line,
+            .checklist-item {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            #opening-screen {
+                transition: opacity 0.5s ease, visibility 0.5s ease;
+            }
         }
     </style>
 </head>
@@ -930,11 +992,11 @@
             <div class="section-title"><span>❤️</span> Congratulations Babeee</div>
             <div class="big-congrats">You Did It.</div>
             <div class="sub-line">You completed every challenge.</div>
-            <div style="margin-top: 18px;">
-                <span class="typewriter-line" style="font-size:clamp(1.1rem,3vw,1.5rem);font-family:'DM Serif Display',serif;font-style:italic;color:rgba(245,230,232,0.7);">
+            <div style="margin-top: 16px;">
+                <span class="typewriter-line" style="font-size:clamp(1.0rem,2.8vw,1.5rem);font-family:'DM Serif Display',serif;font-style:italic;color:rgba(245,230,232,0.7);">
                     And now…
                 </span>
-                <span class="typewriter-line" style="font-size:clamp(1.4rem,4vw,2.2rem);font-family:'LEMON MILK','DM Serif Display',serif;text-transform:uppercase;background:linear-gradient(135deg,#f5e6e8,#d4a0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:4px;">
+                <span class="typewriter-line" style="font-size:clamp(1.2rem,3.6vw,2.2rem);font-family:'LEMON MILK','DM Serif Display',serif;text-transform:uppercase;background:linear-gradient(135deg,#f5e6e8,#d4a0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:4px;">
                     Your gift is unlocked. ✨
                 </span>
             </div>
@@ -943,16 +1005,16 @@
         <!-- ─── SECTION 2: OUR STORY ─── -->
         <section class="section" id="section-2">
             <div class="section-title"><span>📅</span> Our Story</div>
-            <div style="margin-bottom: 6px;">
+            <div style="margin-bottom: 4px;">
                 <span class="story-line"><span class="date-badge">27 Aug 2024</span></span>
                 <span class="story-line">Two years ago,</span>
                 <span class="story-line">I never imagined babe, that a simple conversation</span>
                 <span class="story-line">would become such an important part of my life.</span>
-                <span class="story-line" style="margin-top:8px;">From strangers…</span>
+                <span class="story-line" style="margin-top:6px;">From strangers…</span>
                 <span class="story-line">To best friends…</span>
                 <span class="story-line">To <span class="emphasis">something much more beautiful</span>.</span>
-                <span class="story-line" style="margin-top:8px;">And somehow,</span>
-                <span class="story-line" style="font-size:clamp(1.1rem,2.8vw,1.3rem);color:#d4a0b0;">here we are today. ❤️</span>
+                <span class="story-line" style="margin-top:6px;">And somehow,</span>
+                <span class="story-line" style="font-size:clamp(1.0rem,2.6vw,1.3rem);color:#d4a0b0;">here we are today. ❤️</span>
             </div>
         </section>
 
@@ -965,12 +1027,12 @@
                 <span class="letter-line">There were moments when distance felt unfair.</span>
                 <span class="letter-line">There were times when we missed each other</span>
                 <span class="letter-line" style="margin-bottom:4px;">more than words could explain.</span>
-                <span class="letter-line" style="margin-top:10px;font-style:italic;color:rgba(245,230,232,0.6);">But through everything,</span>
-                <span class="letter-line" style="font-size:clamp(1.1rem,2.8vw,1.3rem);color:#d4a0b0;font-style:italic;">we stayed.</span>
-                <span class="letter-line" style="margin-top:10px;">And that's my favorite part of our story.</span>
+                <span class="letter-line" style="margin-top:8px;font-style:italic;color:rgba(245,230,232,0.6);">But through everything,</span>
+                <span class="letter-line" style="font-size:clamp(1.0rem,2.6vw,1.3rem);color:#d4a0b0;font-style:italic;">we stayed.</span>
+                <span class="letter-line" style="margin-top:8px;">And that's my favorite part of our story.</span>
                 <span class="letter-line" style="font-style:italic;color:rgba(245,230,232,0.6);">Not that it was perfect.</span>
-                <span class="letter-line" style="font-size:clamp(1.1rem,2.8vw,1.3rem);color:#d4a0b0;">But that it was ours.</span>
-                <span class="letter-line" style="font-size:clamp(1.4rem,4vw,2rem);margin-top:6px;">❤️</span>
+                <span class="letter-line" style="font-size:clamp(1.0rem,2.6vw,1.3rem);color:#d4a0b0;">But that it was ours.</span>
+                <span class="letter-line" style="font-size:clamp(1.2rem,3.6vw,2rem);margin-top:4px;">❤️</span>
             </div>
         </section>
 
@@ -1016,13 +1078,13 @@
         </section>
 
         <!-- ─── FINAL STATS ─── -->
-        <div class="glass" style="padding:20px 16px 12px;margin-bottom:32px;border-radius:32px;background:rgba(255,245,248,0.03);">
+        <div class="glass" style="padding:16px 12px 10px;margin-bottom:28px;border-radius:28px;background:rgba(255,245,248,0.03);">
             <div class="final-stats">
                 <div class="stat"><div class="number">730+</div><div class="label">Days Together</div></div>
                 <div class="stat"><div class="number">∞</div><div class="label">Memories Created</div></div>
                 <div class="stat"><div class="number">1</div><div class="label">Story</div></div>
             </div>
-            <div style="text-align:center;font-size:clamp(1.4rem,4vw,2.2rem);font-family:'DM Serif Display',serif;font-style:italic;color:#d4a0b0;padding:4px 0 8px;">
+            <div style="text-align:center;font-size:clamp(1.2rem,3.6vw,2.2rem);font-family:'DM Serif Display',serif;font-style:italic;color:#d4a0b0;padding:2px 0 6px;">
                 "US" ❤️
             </div>
         </div>
@@ -1030,19 +1092,19 @@
         <!-- ─── FINAL MESSAGE ─── -->
         <div class="final-message">
             <div class="big-anniversary">Happy Happy 2nd Year Anniversary</div>
-            <div class="big-anniversary" style="font-size:clamp(1.8rem,6vw,3rem);margin-top:2px;">My Babeee!!!!!!!!!!</div>
+            <div class="big-anniversary" style="font-size:clamp(1.4rem,5.5vw,3rem);margin-top:2px;">My Babeee!!!!!!!!!!</div>
             <div class="love-line">Love of My Life</div>
-            <div class="love-line" style="color:rgba(245,230,232,0.3);font-size:clamp(1.0rem,3vw,1.4rem);">My Better Half 🫶</div>
+            <div class="love-line" style="color:rgba(245,230,232,0.3);font-size:clamp(0.9rem,2.6vw,1.4rem);">My Better Half 🫶</div>
             <div class="name-glow">❤️ Navya ❤️</div>
-            <div style="font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,4.5vw,2.4rem);font-style:italic;color:rgba(245,230,232,0.5);margin-top:4px;">
+            <div style="font-family:'DM Serif Display',serif;font-size:clamp(1.2rem,4vw,2.4rem);font-style:italic;color:rgba(245,230,232,0.5);margin-top:4px;">
                 I Love You Alotttt!!!!!!
             </div>
             <div class="kiss-line">MWAAAAHHHHHHH</div>
-            <div style="margin-top:12px;font-size:clamp(2rem,6vw,3.2rem);">❤️</div>
+            <div style="margin-top:10px;font-size:clamp(1.8rem,5.5vw,3.2rem);">❤️</div>
         </div>
 
         <!-- tiny footer -->
-        <div style="text-align:center;padding:20px 0 10px;font-size:0.55rem;color:rgba(245,230,232,0.08);letter-spacing:0.2em;text-transform:uppercase;font-family:'LEMON MILK','DM Serif Display',serif;">
+        <div style="text-align:center;padding:16px 0 6px;font-size:0.5rem;color:rgba(245,230,232,0.06);letter-spacing:0.2em;text-transform:uppercase;font-family:'LEMON MILK','DM Serif Display',serif;">
             forever & always
         </div>
     </div>
@@ -1059,13 +1121,14 @@
             }, 3200);
         })();
 
-        // ─── PARTICLES ───
+        // ─── PARTICLES (mobile-optimized) ───
         (function() {
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
             let w, h;
+            const isMobile = window.innerWidth < 600;
+            const COUNT = isMobile ? 30 : 55;
             const particles = [];
-            const COUNT = 55;
 
             function resize() {
                 w = canvas.width = window.innerWidth;
@@ -1079,11 +1142,11 @@
                 reset() {
                     this.x = Math.random() * w;
                     this.y = Math.random() * h;
-                    this.size = Math.random() * 2.5 + 0.8;
-                    this.speedX = (Math.random() - 0.5) * 0.3;
-                    this.speedY = (Math.random() - 0.5) * 0.3 - 0.08;
-                    this.opacity = Math.random() * 0.35 + 0.08;
-                    this.life = Math.random() * 200 + 100;
+                    this.size = Math.random() * (isMobile ? 1.8 : 2.5) + 0.6;
+                    this.speedX = (Math.random() - 0.5) * 0.25;
+                    this.speedY = (Math.random() - 0.5) * 0.25 - 0.06;
+                    this.opacity = Math.random() * 0.3 + 0.06;
+                    this.life = Math.random() * 180 + 80;
                     this.maxLife = this.life;
                 }
                 update() {
@@ -1101,10 +1164,9 @@
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(212, 160, 176, ${alpha})`;
                     ctx.fill();
-                    // tiny glow
-                    if (this.size > 1.6) {
-                        ctx.shadowColor = 'rgba(212, 160, 176, 0.08)';
-                        ctx.shadowBlur = 12;
+                    if (this.size > 1.4 && !isMobile) {
+                        ctx.shadowColor = 'rgba(212, 160, 176, 0.06)';
+                        ctx.shadowBlur = 10;
                         ctx.fill();
                         ctx.shadowBlur = 0;
                     }
@@ -1156,7 +1218,7 @@
                 const touch = e.touches[0];
                 const ripple = document.createElement('div');
                 ripple.className = 'ripple';
-                const size = Math.min(window.innerWidth, window.innerHeight) * 0.15;
+                const size = Math.min(window.innerWidth, window.innerHeight) * 0.12;
                 ripple.style.width = size + 'px';
                 ripple.style.height = size + 'px';
                 ripple.style.left = (touch.clientX - size / 2) + 'px';
@@ -1168,7 +1230,7 @@
         })();
 
         // ─── SPARKLE BURST HELPER ───
-        function createSparkleBurst(x, y, count = 18) {
+        function createSparkleBurst(x, y, count = 14) {
             const container = document.createElement('div');
             container.className = 'sparkle-burst';
             container.style.left = x + 'px';
@@ -1178,68 +1240,66 @@
             container.style.zIndex = '20';
             document.body.appendChild(container);
 
-            for (let i = 0; i < count; i++) {
+            const isMobile = window.innerWidth < 600;
+            const actualCount = isMobile ? Math.min(count, 10) : count;
+
+            for (let i = 0; i < actualCount; i++) {
                 const spark = document.createElement('div');
                 spark.className = 'spark';
                 const angle = Math.random() * Math.PI * 2;
-                const dist = 40 + Math.random() * 100;
+                const dist = 30 + Math.random() * (isMobile ? 60 : 100);
                 spark.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
                 spark.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
                 spark.style.left = '0px';
                 spark.style.top = '0px';
-                spark.style.width = (2 + Math.random() * 4) + 'px';
-                spark.style.height = spark.style.width;
+                const size = (isMobile ? 1.5 : 2) + Math.random() * (isMobile ? 2 : 4);
+                spark.style.width = size + 'px';
+                spark.style.height = size + 'px';
                 spark.style.background = ['#d4a0b0', '#e8c4d0', '#f5e6e8', '#b088b8'][Math.floor(Math.random() * 4)];
-                spark.style.boxShadow = `0 0 ${12 + Math.random() * 20}px rgba(212,160,176,0.4)`;
-                spark.style.animationDuration = (0.6 + Math.random() * 0.6) + 's';
+                spark.style.boxShadow = `0 0 ${isMobile ? 8 : 12}px rgba(212,160,176,0.4)`;
+                spark.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
                 container.appendChild(spark);
             }
 
-            setTimeout(() => { container.remove(); }, 1500);
+            setTimeout(() => { container.remove(); }, 1400);
         }
 
         // ─── SECTION OBSERVER ───
         (function() {
             const sections = document.querySelectorAll('.section');
 
-            // Typewriter lines for section 1
             const typeLines = document.querySelectorAll('#section-1 .typewriter-line');
-            // Story lines for section 2
             const storyLines = document.querySelectorAll('#section-2 .story-line');
-            // Letter lines for section 3
             const letterLines = document.querySelectorAll('#section-3 .letter-line');
-            // Checklist items for section 4
             const checklistItems = document.querySelectorAll('#section-4 .checklist-item');
 
-            // Check all boxes on section 4 reveal with delay
             function checkAllBoxes() {
                 checklistItems.forEach((item, idx) => {
                     setTimeout(() => {
                         item.classList.add('revealed');
                         const box = item.querySelector('.box');
                         if (box) box.classList.add('checked');
-                        // sparkle on each
                         if (idx % 2 === 0) {
                             const rect = item.getBoundingClientRect();
-                            createSparkleBurst(rect.left + rect.width * 0.3, rect.top + rect.height / 2, 6);
+                            createSparkleBurst(rect.left + rect.width * 0.3, rect.top + rect.height / 2, 4);
                         }
-                    }, 120 + idx * 140);
+                    }, 100 + idx * 120);
                 });
             }
 
-            // Trigger sparkle burst on section 6
             function triggerAnswerSparkles() {
                 const rect = document.getElementById('section-6').getBoundingClientRect();
                 const cx = rect.left + rect.width / 2;
                 const cy = rect.top + rect.height / 2;
-                for (let i = 0; i < 3; i++) {
+                const count = window.innerWidth < 600 ? 2 : 3;
+                for (let i = 0; i < count; i++) {
                     setTimeout(() => {
                         createSparkleBurst(
-                            cx + (Math.random() - 0.5) * 200,
-                            cy + (Math.random() - 0.5) * 120,
-                            14
+                            cx + (Math.random() - 0.5) * (window.innerWidth < 600 ? 120 : 200),
+                            cy + (Math.random() - 0.5) * (window.innerWidth < 600 ? 80 : 120),
+                            window.innerWidth < 600 ? 8 : 14
                         );
-                    }, i * 400);
+                    }, i * 350);
                 }
             }
 
@@ -1249,31 +1309,27 @@
                         const el = entry.target;
                         el.classList.add('visible');
 
-                        // Section 1 typewriter
                         if (el.id === 'section-1') {
                             typeLines.forEach((line, i) => {
                                 setTimeout(() => {
                                     line.classList.add('revealed');
                                     if (i === typeLines.length - 1) {
-                                        // sparkle on last line
                                         const rect = line.getBoundingClientRect();
                                         createSparkleBurst(rect.left + rect.width / 2, rect.top + rect
-                                            .height / 2, 20);
+                                            .height / 2, 14);
                                     }
-                                }, 300 + i * 400);
+                                }, 250 + i * 350);
                             });
                         }
 
-                        // Section 2 story
                         if (el.id === 'section-2') {
                             storyLines.forEach((line, i) => {
                                 setTimeout(() => {
                                     line.classList.add('revealed');
-                                }, 200 + i * 220);
+                                }, 150 + i * 180);
                             });
                         }
 
-                        // Section 3 letter
                         if (el.id === 'section-3') {
                             letterLines.forEach((line, i) => {
                                 setTimeout(() => {
@@ -1281,33 +1337,29 @@
                                     if (i === letterLines.length - 1) {
                                         const rect = line.getBoundingClientRect();
                                         createSparkleBurst(rect.left + rect.width / 2, rect.top + rect
-                                            .height / 2, 12);
+                                            .height / 2, 10);
                                     }
-                                }, 200 + i * 260);
+                                }, 150 + i * 220);
                             });
                         }
 
-                        // Section 4 checklist
                         if (el.id === 'section-4') {
                             checkAllBoxes();
                         }
 
-                        // Section 5
                         if (el.id === 'section-5') {
                             setTimeout(() => {
                                 const rect = el.getBoundingClientRect();
                                 createSparkleBurst(rect.left + rect.width * 0.2, rect.top + rect.height *
-                                    0.4, 10);
+                                    0.4, 8);
                                 createSparkleBurst(rect.left + rect.width * 0.8, rect.top + rect.height *
-                                    0.6, 10);
-                            }, 600);
+                                    0.6, 8);
+                            }, 500);
                         }
 
-                        // Section 6 - THE ANSWER
                         if (el.id === 'section-6') {
                             setTimeout(() => {
                                 triggerAnswerSparkles();
-                                // continuous heart pulse sparkles
                                 const interval = setInterval(() => {
                                     if (!document.querySelector('#section-6.visible')) {
                                         clearInterval(interval);
@@ -1317,36 +1369,36 @@
                                     createSparkleBurst(
                                         rect.left + rect.width * (0.2 + Math.random() * 0.6),
                                         rect.top + rect.height * (0.2 + Math.random() * 0.6),
-                                        6
+                                        window.innerWidth < 600 ? 3 : 6
                                     );
-                                }, 1800);
-                                // store interval for cleanup (not critical)
-                            }, 500);
+                                }, 2000);
+                            }, 400);
                         }
                     }
                 });
             }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -30px 0px'
+                threshold: 0.12,
+                rootMargin: '0px 0px -20px 0px'
             });
 
             sections.forEach(s => observer.observe(s));
 
-            // Also observe final stats area for sparkles
+            // Stats observer
             const statsEl = document.querySelector('.final-stats');
             if (statsEl) {
                 const statsObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const rect = entry.target.getBoundingClientRect();
-                            for (let i = 0; i < 4; i++) {
+                            const count = window.innerWidth < 600 ? 2 : 4;
+                            for (let i = 0; i < count; i++) {
                                 setTimeout(() => {
                                     createSparkleBurst(
                                         rect.left + rect.width * (0.1 + Math.random() * 0.8),
                                         rect.top + rect.height * (0.1 + Math.random() * 0.8),
-                                        6
+                                        window.innerWidth < 600 ? 4 : 6
                                     );
-                                }, i * 300);
+                                }, i * 250);
                             }
                         }
                     });
@@ -1354,21 +1406,22 @@
                 statsObserver.observe(statsEl);
             }
 
-            // Observe final message for sparkles
+            // Final message observer
             const finalMsg = document.querySelector('.final-message');
             if (finalMsg) {
                 const msgObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const rect = entry.target.getBoundingClientRect();
-                            for (let i = 0; i < 5; i++) {
+                            const count = window.innerWidth < 600 ? 3 : 5;
+                            for (let i = 0; i < count; i++) {
                                 setTimeout(() => {
                                     createSparkleBurst(
                                         rect.left + rect.width * (0.1 + Math.random() * 0.8),
                                         rect.top + rect.height * (0.1 + Math.random() * 0.8),
-                                        8
+                                        window.innerWidth < 600 ? 5 : 8
                                     );
-                                }, i * 350);
+                                }, i * 300);
                             }
                         }
                     });
@@ -1379,26 +1432,29 @@
 
         // ─── CONTINUOUS AMBIENT SPARKLES ───
         (function() {
+            const isMobile = window.innerWidth < 600;
+
             function randomSparkle() {
                 const x = Math.random() * window.innerWidth;
                 const y = Math.random() * window.innerHeight;
-                // only if within viewport and not over critical text (rough)
-                createSparkleBurst(x, y, 3 + Math.floor(Math.random() * 4));
+                const count = isMobile ? 2 + Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 4);
+                createSparkleBurst(x, y, count);
             }
-            // gentle random sparkles every few seconds
+
+            const intervalTime = isMobile ? 6000 : 4500;
             setInterval(() => {
                 if (Math.random() > 0.5) {
                     randomSparkle();
                 }
-            }, 4000);
+            }, intervalTime);
 
-            // more frequent sparkles near bottom after scroll
             let scrolled = false;
             window.addEventListener('scroll', () => {
-                if (!scrolled && window.scrollY > 200) {
+                if (!scrolled && window.scrollY > 150) {
                     scrolled = true;
-                    for (let i = 0; i < 3; i++) {
-                        setTimeout(randomSparkle, i * 500);
+                    const count = isMobile ? 2 : 3;
+                    for (let i = 0; i < count; i++) {
+                        setTimeout(randomSparkle, i * 400);
                     }
                 }
             }, { passive: true });
@@ -1407,16 +1463,24 @@
         // ─── PARALLAX GLOW ON SCROLL ───
         (function() {
             const sections = document.querySelectorAll('.section');
+            let ticking = false;
+
             window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                sections.forEach((sec, idx) => {
-                    const rect = sec.getBoundingClientRect();
-                    const center = rect.top + rect.height / 2;
-                    const viewCenter = window.innerHeight / 2;
-                    const dist = (center - viewCenter) / window.innerHeight;
-                    const opacity = 0.04 + Math.max(0, 0.06 - Math.abs(dist) * 0.04);
-                    sec.style.boxShadow = `0 12px 48px rgba(0,0,0,0.3), 0 0 80px rgba(212,160,176,${opacity})`;
-                });
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        sections.forEach((sec) => {
+                            const rect = sec.getBoundingClientRect();
+                            const center = rect.top + rect.height / 2;
+                            const viewCenter = window.innerHeight / 2;
+                            const dist = (center - viewCenter) / window.innerHeight;
+                            const opacity = 0.03 + Math.max(0, 0.05 - Math.abs(dist) * 0.035);
+                            sec.style.boxShadow =
+                                `0 12px 48px rgba(0,0,0,0.3), 0 0 60px rgba(212,160,176,${opacity})`;
+                        });
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
             }, { passive: true });
         })();
 
