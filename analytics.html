@@ -266,7 +266,7 @@
             padding: 1.8rem 1.5rem 1.5rem;
             margin-bottom: 1.8rem;
             border-radius: 28px;
-            background: rgba(255, 255, 255, 0.035);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(28px) saturate(1.3);
             -webkit-backdrop-filter: blur(28px) saturate(1.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -293,7 +293,7 @@
             font-weight: 700;
             font-size: clamp(0.7rem, 2vw, 0.95rem);
             letter-spacing: 0.15em;
-            color: rgba(255, 200, 220, 0.5);
+            color: rgba(255, 200, 220, 0.3);
             text-align: center;
             margin-bottom: 1.2rem;
             text-transform: uppercase;
@@ -305,26 +305,16 @@
             gap: 0.6rem 1rem;
         }
 
-        /* --- STAT ITEMS: ALWAYS VISIBLE --- */
         .stat-item {
             display: flex;
             flex-direction: column;
             padding: 0.5rem 0.2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            /* Always visible — no opacity:0, no hidden content */
-            opacity: 1;
-            transform: none;
-            /* Floating animation applied via a separate class */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            opacity: 0;
+            transform: translateY(12px) scale(0.98);
+            animation: statAppear 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             position: relative;
         }
-
-        /* Gentle floating animation — decorative only, content always visible */
-        .stat-item.floating {
-            animation: floatStat 4.5s ease-in-out infinite alternate;
-        }
-
-        /* Staggered delays for the floating effect */
         .stat-item:nth-child(1) {
             animation-delay: 0.05s;
         }
@@ -365,20 +355,15 @@
             animation-delay: 0.65s;
         }
 
-        @keyframes floatStat {
+        @keyframes statAppear {
             0% {
-                transform: translateY(0);
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
             }
             100% {
-                transform: translateY(-4px);
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
-        }
-
-        /* Hover effect — subtle glow */
-        .stat-item:hover {
-            transform: translateY(-2px);
-            border-bottom-color: rgba(255, 107, 157, 0.15);
-            box-shadow: 0 2px 20px rgba(212, 160, 255, 0.04);
         }
 
         .stat-item .stat-label {
@@ -387,28 +372,36 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: rgba(255, 200, 220, 0.45);
+            color: rgba(255, 200, 220, 0.3);
             margin-bottom: 0.05rem;
         }
         .stat-item .stat-value {
             font-family: 'LEMON MILK', 'Poppins', sans-serif;
             font-weight: 700;
             font-size: clamp(0.7rem, 2.2vw, 1.1rem);
-            /* Strong contrast: light pink-white gradient on dark bg */
-            background: linear-gradient(135deg, #f5eaf0, #ffb8d0);
+            background: linear-gradient(135deg, #f0e6f0, #ffb0cc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             line-height: 1.3;
-            /* Fallback for browsers that don't support background-clip */
-            color: #f5eaf0;
         }
         .stat-item .stat-value .emoji {
             -webkit-text-fill-color: initial;
-            color: #ffb8d0;
         }
         .stat-item .stat-value.small {
             font-size: clamp(0.55rem, 1.6vw, 0.8rem);
+        }
+
+        /* floating animation for stats */
+        .stat-item.floating {
+            animation: floatStat 4.5s ease-in-out infinite alternate;
+        }
+        @keyframes floatStat {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-4px);
+            }
         }
 
         /* ===== FINAL REPORT CARD ===== */
@@ -427,13 +420,19 @@
             box-shadow: 0 8px 50px rgba(0, 0, 0, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.04),
                 0 0 80px rgba(212, 160, 255, 0.03);
-            /* Always visible, gentle reveal via transform only */
-            opacity: 1;
-            transform: translateY(0);
-            transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: reportReveal 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.7s forwards;
         }
-        .final-report.reveal {
-            transform: translateY(0);
+        @keyframes reportReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .final-report::before {
@@ -455,7 +454,7 @@
             font-weight: 700;
             font-size: clamp(0.8rem, 2.5vw, 1.2rem);
             letter-spacing: 0.25em;
-            color: rgba(255, 200, 220, 0.4);
+            color: rgba(255, 200, 220, 0.35);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
@@ -463,7 +462,7 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 300;
             font-size: clamp(0.65rem, 1.8vw, 0.9rem);
-            color: rgba(255, 200, 220, 0.4);
+            color: rgba(255, 200, 220, 0.35);
             letter-spacing: 0.05em;
             margin-bottom: 1rem;
             line-height: 1.6;
@@ -471,7 +470,7 @@
         .final-report .report-result {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(1.1rem, 3.8vw, 1.9rem);
-            color: rgba(255, 220, 235, 0.9);
+            color: rgba(255, 220, 235, 0.85);
             line-height: 1.7;
             text-shadow: 0 0 50px rgba(255, 107, 157, 0.1);
             margin-bottom: 0.2rem;
@@ -814,72 +813,59 @@
             <div class="subtitle">Generated from 2 years of memories.</div>
         </header>
 
-        <!-- MAIN ANALYTICS CARD — All stats statically rendered & always visible -->
+        <!-- MAIN ANALYTICS CARD -->
         <div class="analytics-main-card glass-card" id="analyticsCard">
             <div class="card-title">❤️ Relationship Analytics</div>
 
             <div class="analytics-stats" id="analyticsStats">
-                <!-- Status -->
                 <div class="stat-item">
                     <span class="stat-label">Status</span>
                     <span class="stat-value">Active <span class="emoji">❤️</span></span>
                 </div>
-                <!-- Years Together -->
                 <div class="stat-item">
                     <span class="stat-label">Years Together</span>
                     <span class="stat-value">2</span>
                 </div>
-                <!-- Days Together -->
                 <div class="stat-item">
                     <span class="stat-label">Days Together</span>
                     <span class="stat-value">730<span style="font-size:0.7em;">+</span></span>
                 </div>
-                <!-- Messages -->
                 <div class="stat-item">
                     <span class="stat-label">Messages</span>
                     <span class="stat-value small">Countless</span>
                 </div>
-                <!-- Late Night Talks -->
                 <div class="stat-item">
                     <span class="stat-label">Late Night Talks</span>
                     <span class="stat-value small">Too Many To Count</span>
                 </div>
-                <!-- Arguments Survived -->
                 <div class="stat-item">
                     <span class="stat-label">Arguments Survived</span>
                     <span class="stat-value">100%</span>
                 </div>
-                <!-- Distance Status -->
                 <div class="stat-item">
                     <span class="stat-label">Distance Status</span>
                     <span class="stat-value"><span class="emoji">🥲</span></span>
                 </div>
-                <!-- Trust Level -->
                 <div class="stat-item">
                     <span class="stat-label">Trust Level</span>
                     <span class="stat-value">100%</span>
                 </div>
-                <!-- Comfort Level -->
                 <div class="stat-item">
                     <span class="stat-label">Comfort Level</span>
                     <span class="stat-value">Maximum</span>
                 </div>
-                <!-- Missing You -->
                 <div class="stat-item">
                     <span class="stat-label">Missing You</span>
                     <span class="stat-value">9999%</span>
                 </div>
-                <!-- Favorite Person -->
                 <div class="stat-item">
                     <span class="stat-label">Favorite Person</span>
                     <span class="stat-value">#1</span>
                 </div>
-                <!-- Future Goal -->
                 <div class="stat-item">
                     <span class="stat-label">Future Goal</span>
                     <span class="stat-value small">Shadi and Babies <span class="emoji">😍</span></span>
                 </div>
-                <!-- Love Remaining -->
                 <div class="stat-item">
                     <span class="stat-label">Love Remaining</span>
                     <span class="stat-value">Infinite <span style="font-size:0.8em;">♾️</span></span>
@@ -932,7 +918,6 @@
         const progressBar = document.getElementById('progressBar');
         const progressPercent = document.getElementById('progressPercent');
         const mainContent = document.getElementById('main-content');
-        const finalReport = document.getElementById('finalReport');
 
         const loadingDuration = 1500; // 1.5 seconds
         const stepInterval = 20;
@@ -957,8 +942,6 @@
                 setTimeout(() => {
                     loadingOverlay.classList.add('hidden');
                     mainContent.classList.add('visible');
-                    // Reveal final report with a gentle transition
-                    finalReport.classList.add('reveal');
                     enableFloating();
                 }, 300);
             }
@@ -968,7 +951,7 @@
         requestAnimationFrame(updateLoading);
 
         // ============================================================
-        // 2. FLOATING ANIMATION FOR STATS (staggered, decorative only)
+        // 2. FLOATING ANIMATION FOR STATS (staggered)
         // ============================================================
         function enableFloating() {
             const items = document.querySelectorAll('.stat-item');
