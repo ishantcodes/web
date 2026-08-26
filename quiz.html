@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Final Challenge · Anniversary Quiz</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #ff6b9d;
+            --pink-glow: rgba(255, 107, 157, 0.35);
+            --rose-gold: #d4a574;
+            --rose-glow: rgba(212, 165, 116, 0.30);
+            --purple: #9b59b6;
+            --purple-glow: rgba(155, 89, 182, 0.30);
+            --dark-bg: #0a0508;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5e6ec;
+            --text-secondary: rgba(245, 230, 236, 0.70);
+            --text-muted: rgba(245, 230, 236, 0.45);
+            --font-heading: 'Montserrat', sans-serif;
+            --font-romantic: 'Dancing Script', cursive;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: var(--font-body);
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--pink);
+            border-radius: 10px;
+        }
+
+        /* ===== PARTICLES CANVAS ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== AMBIENT GLOW ORBS ===== */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+            animation: orbFloat 12s ease-in-out infinite alternate;
+        }
+        .ambient-orb--1 {
+            width: 55vw;
+            height: 55vw;
+            top: -15%;
+            right: -20%;
+            background: radial-gradient(circle, var(--pink), transparent 70%);
+            animation-delay: 0s;
+        }
+        .ambient-orb--2 {
+            width: 45vw;
+            height: 45vw;
+            bottom: -10%;
+            left: -25%;
+            background: radial-gradient(circle, var(--purple), transparent 70%);
+            animation-delay: 4s;
+        }
+        .ambient-orb--3 {
+            width: 35vw;
+            height: 35vw;
+            top: 40%;
+            left: 55%;
+            background: radial-gradient(circle, var(--rose-gold), transparent 70%);
+            animation-delay: 8s;
+            opacity: 0.20;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(20px, -30px) scale(1.08);
+            }
+            66% {
+                transform: translate(-15px, 25px) scale(0.92);
+            }
+            100% {
+                transform: translate(10px, -10px) scale(1.02);
+            }
+        }
+
+        /* ===== MAIN WRAPPER ===== */
+        .app-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px 24px;
+            overflow-y: auto;
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-bg);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 28px 22px 32px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255, 107, 157, 0.04), transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .romantic-accent {
+            font-family: var(--font-romantic);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--rose-gold);
+            letter-spacing: 0.02em;
+            text-shadow: 0 0 30px var(--rose-glow), 0 0 60px rgba(212, 165, 116, 0.10);
+            display: block;
+            margin-bottom: 4px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .main-heading {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 2.2rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 30%, var(--rose-gold) 70%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(255, 107, 157, 0.15);
+            line-height: 1.15;
+            margin-bottom: 6px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.35s forwards;
+        }
+
+        .subtitle {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.5s forwards;
+        }
+        .subtitle span {
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== PROGRESS DOTS ===== */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: none;
+        }
+        .dot.active {
+            background: var(--pink);
+            box-shadow: 0 0 16px var(--pink-glow), 0 0 40px rgba(255, 107, 157, 0.15);
+            width: 24px;
+            border-radius: 6px;
+        }
+        .dot.done {
+            background: var(--rose-gold);
+            box-shadow: 0 0 10px var(--rose-glow);
+        }
+
+        /* ===== QUESTION AREA ===== */
+        .question-area {
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .question-number {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .question-text {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            min-height: 3.2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ===== ANSWER BUTTONS ===== */
+        .answers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 2px;
+        }
+
+        .answer-btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: left;
+            transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.01em;
+            line-height: 1.3;
+        }
+        .answer-btn .letter {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .answer-btn .answer-text {
+            display: inline;
+        }
+        .answer-btn:active {
+            transform: scale(0.97);
+        }
+        .answer-btn:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .answer-btn.correct {
+            border-color: var(--pink) !important;
+            background: rgba(255, 107, 157, 0.15) !important;
+            box-shadow: 0 0 30px var(--pink-glow), inset 0 0 30px rgba(255, 107, 157, 0.05) !important;
+            transform: scale(1.01);
+        }
+        .answer-btn.correct .letter {
+            background: var(--pink);
+            color: #fff;
+            box-shadow: 0 0 20px var(--pink-glow);
+        }
+
+        .answer-btn.wrong {
+            border-color: rgba(255, 80, 80, 0.5) !important;
+            background: rgba(255, 80, 80, 0.10) !important;
+            animation: shake 0.45s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        .answer-btn.wrong .letter {
+            background: rgba(255, 80, 80, 0.3);
+            color: #ff6b6b;
+        }
+
+        .answer-btn.disabled {
+            cursor: default;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .answer-btn.disabled .letter {
+            opacity: 0.4;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            15% {
+                transform: translateX(-10px);
+            }
+            30% {
+                transform: translateX(10px);
+            }
+            45% {
+                transform: translateX(-6px);
+            }
+            60% {
+                transform: translateX(6px);
+            }
+            80% {
+                transform: translateX(-3px);
+            }
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback {
+            margin-top: 14px;
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.9rem;
+            text-align: center;
+            min-height: 1.8rem;
+            color: var(--text-secondary);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        .feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feedback.error {
+            color: #ff6b6b;
+        }
+        .feedback.success {
+            color: var(--pink);
+        }
+
+        /* ===== FINAL VERIFICATION SCREEN ===== */
+        .final-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8px 0 4px;
+            animation: fadeUp 0.8s ease forwards;
+        }
+        .final-screen.active {
+            display: flex;
+        }
+
+        .final-icon {
+            font-size: 3.2rem;
+            margin-bottom: 6px;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px var(--pink-glow));
+            }
+            50% {
+                transform: scale(1.06);
+                filter: drop-shadow(0 0 40px var(--pink-glow));
+            }
+        }
+
+        .final-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff, var(--rose-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .final-verifying {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+        .final-verifying .dots::after {
+            content: '...';
+            animation: dots 1.4s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0% {
+                content: '';
+            }
+            25% {
+                content: '.';
+            }
+            50% {
+                content: '..';
+            }
+            75% {
+                content: '...';
+            }
+            100% {
+                content: '';
+            }
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto 18px;
+        }
+        .status-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 12px 6px;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .status-item.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .status-item .label {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .status-item .value {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.0rem;
+            color: var(--text-primary);
+        }
+        .status-item .value.pink {
+            color: var(--pink);
+        }
+        .status-item .value.gold {
+            color: var(--rose-gold);
+        }
+        .status-item .value.purple {
+            color: var(--purple);
+        }
+
+        .access-granted {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--pink), var(--rose-gold), var(--pink));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerText 3s ease-in-out infinite;
+            margin: 4px 0 14px;
+            opacity: 0;
+            transform: scale(0.92);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .access-granted.reveal {
+            opacity: 1;
+            transform: scale(1);
+        }
+        @keyframes shimmerText {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* ===== CLAIM BUTTON ===== */
+        .claim-btn-wrap {
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(16px) scale(0.96);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .claim-btn-wrap.reveal {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .claim-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 107, 157, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 107, 157, 0.25);
+            border-radius: 20px;
+            color: #fff;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow:
+                0 0 40px var(--pink-glow),
+                0 0 80px rgba(255, 107, 157, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.10);
+            animation: floatBtn 3s ease-in-out infinite;
+        }
+        .claim-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg,
+                    transparent 40%,
+                    rgba(255, 255, 255, 0.06) 50%,
+                    transparent 60%);
+            animation: shineBtn 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes shineBtn {
+            0% {
+                transform: translateX(-100%) rotate(25deg);
+            }
+            60% {
+                transform: translateX(100%) rotate(25deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(25deg);
+            }
+        }
+        @keyframes floatBtn {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+        .claim-btn:active {
+            transform: scale(0.96) !important;
+            animation: none;
+        }
+        .claim-btn:hover {
+            border-color: rgba(255, 107, 157, 0.5);
+            box-shadow:
+                0 0 60px var(--pink-glow),
+                0 0 100px rgba(255, 107, 157, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 22px 16px 26px;
+                border-radius: 24px;
+            }
+            .main-heading {
+                font-size: 1.8rem;
+                letter-spacing: 0.10em;
+            }
+            .romantic-accent {
+                font-size: 1.1rem;
+            }
+            .question-text {
+                font-size: 1.05rem;
+                min-height: 2.8rem;
+            }
+            .answer-btn {
+                padding: 14px 16px;
+                font-size: 0.88rem;
+                border-radius: 14px;
+            }
+            .answer-btn .letter {
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                font-size: 0.7rem;
+                margin-right: 10px;
+            }
+            .final-title {
+                font-size: 1.2rem;
+            }
+            .access-granted {
+                font-size: 1.4rem;
+            }
+            .status-grid {
+                gap: 8px;
+            }
+            .status-item {
+                padding: 10px 4px;
+            }
+            .status-item .value {
+                font-size: 0.85rem;
+            }
+            .claim-btn {
+                padding: 16px 16px;
+                font-size: 1.0rem;
+            }
+            .app-wrapper {
+                padding: 12px 10px 16px;
+            }
+            .subtitle {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .glass-card {
+                padding: 18px 12px 20px;
+                border-radius: 20px;
+            }
+            .main-heading {
+                font-size: 1.5rem;
+            }
+            .question-text {
+                font-size: 0.95rem;
+            }
+            .answer-btn {
+                padding: 12px 14px;
+                font-size: 0.82rem;
+            }
+        }
+
+        @media (min-height: 800px) {
+            .glass-card {
+                padding: 36px 28px 40px;
+            }
+            .question-area {
+                min-height: 260px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+            }
+            .answer-btn {
+                padding: 18px 24px;
+                font-size: 1.0rem;
+            }
+        }
+
+        /* ===== UTILITY ===== */
+        .hidden {
+            display: none !important;
+        }
+        .fade-transition {
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+        /* ===== GLOW OVERLAY ===== */
+        .glow-ring {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(60px);
+            opacity: 0.12;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== AMBIENT ORBS ===== -->
+    <div class="ambient-orb ambient-orb--1"></div>
+    <div class="ambient-orb ambient-orb--2"></div>
+    <div class="ambient-orb ambient-orb--3"></div>
+
+    <!-- ===== PARTICLES CANVAS ===== -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ===== APP WRAPPER ===== -->
+    <div class="app-wrapper" id="appWrapper">
+
+        <div class="glass-card" id="glassCard">
+
+            <!-- ===== HEADER ===== -->
+            <div class="quiz-header">
+                <span class="romantic-accent">One final step remains.</span>
+                <h1 class="main-heading">Final Challenge</h1>
+                <p class="subtitle">Complete the challenge to unlock your <span>anniversary gift</span>.</p>
+            </div>
+
+            <!-- ===== PROGRESS DOTS ===== -->
+            <div class="progress-dots" id="progressDots"></div>
+
+            <!-- ===== QUIZ AREA ===== -->
+            <div class="question-area" id="questionArea">
+                <div class="question-number" id="questionNumber">Question 1 of 6</div>
+                <div class="question-text" id="questionText">Loading...</div>
+                <div class="answers-grid" id="answersGrid"></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+
+            <!-- ===== FINAL SCREEN ===== -->
+            <div class="final-screen" id="finalScreen">
+                <div class="final-icon">✨</div>
+                <div class="final-title">Final Verification Complete</div>
+                <div class="final-verifying">
+                    Checking Relationship Status<span class="dots"></span>
+                </div>
+
+                <div class="status-grid" id="statusGrid">
+                    <div class="status-item" data-index="0">
+                        <span class="label">Trust Level</span>
+                        <span class="value pink">100%</span>
+                    </div>
+                    <div class="status-item" data-index="1">
+                        <span class="label">Comfort Level</span>
+                        <span class="value gold">Maximum</span>
+                    </div>
+                    <div class="status-item" data-index="2">
+                        <span class="label">Love Remaining</span>
+                        <span class="value pink">Infinite</span>
+                    </div>
+                    <div class="status-item" data-index="3">
+                        <span class="label">Future Goal</span>
+                        <span class="value purple">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="access-granted" id="accessGranted">ACCESS GRANTED</div>
+
+                <div class="claim-btn-wrap" id="claimWrap">
+                    <button class="claim-btn" id="claimBtn">CLAIM YOUR GIFT</button>
+                </div>
+            </div>
+
+        </div><!-- /glass-card -->
+    </div><!-- /app-wrapper -->
+
+    <script>
+        // ============================================================
+        //  DATA
+        // ============================================================
+        const QUIZ_DATA = [{
+            question: 'What is the biggest thing we gained in these 2 years?',
+            options: ['Money', 'Each Other', 'Popularity', 'Followers'],
+            correct: 1, // index
+        }, {
+            question: 'What helped us stay together despite the distance?',
+            options: ['Trust', 'Coincidence', 'Luck', 'Timing'],
+            correct: 0,
+        }, {
+            question: 'What is our strongest achievement?',
+            options: ['Always Agreeing', 'Perfect Conversations', 'Never Giving Up On Us', 'Never Fighting'],
+            correct: 2,
+        }, {
+            question: 'What are we looking forward to the most?',
+            options: ['More Calls', 'More Reels', 'More Texts', 'Making Memories Together'],
+            correct: 3,
+        }, {
+            question: 'How long will this journey continue?',
+            options: ['Till Our End', 'Until Next Year', 'Until We Get Bored', 'Until The Distance Ends'],
+            correct: 0,
+        }, {
+            question: 'After everything we\'ve been through, what do we still choose every day?',
+            options: ['Different Paths', 'Comfort Zone', 'Each Other', 'Distance'],
+            correct: 2,
+        }, ];
+
+        const LETTERS = ['A', 'B', 'C', 'D'];
+
+        // ============================================================
+        //  STATE
+        // ============================================================
+        let currentIndex = 0;
+        let isAnswering = false;
+        let quizComplete = false;
+
+        // ============================================================
+        //  DOM REFS
+        // ============================================================
+        const progressDots = document.getElementById('progressDots');
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const answersGrid = document.getElementById('answersGrid');
+        const feedback = document.getElementById('feedback');
+        const questionArea = document.getElementById('questionArea');
+        const finalScreen = document.getElementById('finalScreen');
+        const statusItems = document.querySelectorAll('.status-item');
+        const accessGranted = document.getElementById('accessGranted');
+        const claimWrap = document.getElementById('claimWrap');
+        const claimBtn = document.getElementById('claimBtn');
+        const glassCard = document.getElementById('glassCard');
+
+        // ============================================================
+        //  PARTICLES (Canvas)
+        // ============================================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animFrame;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.4 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.35;
+                this.speedY = (Math.random() - 0.5) * 0.35;
+                this.opacity = Math.random() * 0.35 + 0.08;
+                this.hue = Math.random() < 0.5 ? 340 : 280; // pink or purple
+                this.pulse = Math.random() * Math.PI * 2;
+                this.pulseSpeed = 0.01 + Math.random() * 0.02;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.pulse += this.pulseSpeed;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                const alpha = this.opacity * (0.7 + 0.3 * Math.sin(this.pulse));
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                const color = this.hue === 340 ?
+                    `rgba(255, 107, 157, ${alpha})` :
+                    `rgba(155, 89, 182, ${alpha})`;
+                ctx.fillStyle = color;
+                ctx.fill();
+                // soft glow
+                if (this.size > 1.5) {
+                    ctx.shadowColor = this.hue === 340 ? 'rgba(255,107,157,0.2)' : 'rgba(155,89,182,0.2)';
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        function initParticles(count = 70) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animFrame = requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ============================================================
+        //  RENDER QUIZ
+        // ============================================================
+        function renderDots() {
+            progressDots.innerHTML = '';
+            for (let i = 0; i < QUIZ_DATA.length; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                if (i < currentIndex) dot.classList.add('done');
+                if (i === currentIndex) dot.classList.add('active');
+                progressDots.appendChild(dot);
+            }
+        }
+
+        function renderQuestion() {
+            const q = QUIZ_DATA[currentIndex];
+            questionNumber.textContent = `Question ${currentIndex + 1} of ${QUIZ_DATA.length}`;
+            questionText.textContent = q.question;
+
+            answersGrid.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.setAttribute('data-index', idx);
+                btn.innerHTML = `
+              <span class="letter">${LETTERS[idx]}</span>
+              <span class="answer-text">${opt}</span>
+            `;
+                btn.addEventListener('click', () => handleAnswer(idx));
+                answersGrid.appendChild(btn);
+            });
+
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            feedback.style.opacity = '0';
+            isAnswering = false;
+
+            renderDots();
+        }
+
+        // ============================================================
+        //  HANDLE ANSWER
+        // ============================================================
+        function handleAnswer(selected) {
+            if (isAnswering || quizComplete) return;
+            isAnswering = true;
+
+            const q = QUIZ_DATA[currentIndex];
+            const btns = answersGrid.querySelectorAll('.answer-btn');
+            const isCorrect = (selected === q.correct);
+
+            // Disable all buttons
+            btns.forEach(b => b.classList.add('disabled'));
+
+            // Highlight correct / wrong
+            btns.forEach((btn, idx) => {
+                if (idx === q.correct) {
+                    btn.classList.add('correct');
+                }
+                if (idx === selected && !isCorrect) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (isCorrect) {
+                // Correct → glow & proceed
+                feedback.textContent = '✨ Perfect!';
+                feedback.className = 'feedback show success';
+                feedback.style.opacity = '1';
+
+                // Mark dot as done after transition
+                setTimeout(() => {
+                    const dots = progressDots.querySelectorAll('.dot');
+                    if (dots[currentIndex]) {
+                        dots[currentIndex].classList.remove('active');
+                        dots[currentIndex].classList.add('done');
+                    }
+
+                    if (currentIndex < QUIZ_DATA.length - 1) {
+                        currentIndex++;
+                        renderQuestion();
+                    } else {
+                        // Quiz complete!
+                        quizComplete = true;
+                        showFinalScreen();
+                    }
+                }, 700);
+
+            } else {
+                // Wrong → shake + "try again"
+                feedback.textContent = 'Not quite, try again.';
+                feedback.className = 'feedback show error';
+                feedback.style.opacity = '1';
+
+                // Re-enable after shake
+                setTimeout(() => {
+                    btns.forEach(b => {
+                        b.classList.remove('disabled', 'wrong');
+                    });
+                    isAnswering = false;
+                    // remove wrong highlight from selected
+                    btns.forEach((btn, idx) => {
+                        if (idx === selected) {
+                            btn.classList.remove('wrong');
+                        }
+                    });
+                    feedback.className = 'feedback';
+                    feedback.style.opacity = '0';
+                }, 750);
+            }
+        }
+
+        // ============================================================
+        //  FINAL SCREEN
+        // ============================================================
+        function showFinalScreen() {
+            // Fade out question area
+            questionArea.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            questionArea.style.opacity = '0';
+            questionArea.style.transform = 'translateY(-10px)';
+
+            // Hide progress dots
+            progressDots.style.transition = 'opacity 0.4s ease';
+            progressDots.style.opacity = '0';
+
+            setTimeout(() => {
+                questionArea.style.display = 'none';
+                progressDots.style.display = 'none';
+
+                // Show final screen
+                finalScreen.classList.add('active');
+
+                // Animate status items one by one
+                statusItems.forEach((item, idx) => {
+                    setTimeout(() => {
+                        item.classList.add('reveal');
+                    }, 300 + idx * 280);
+                });
+
+                // After statuses, show ACCESS GRANTED
+                setTimeout(() => {
+                    accessGranted.classList.add('reveal');
+
+                    // Update the last status (Future Goal)
+                    const futureGoal = statusItems[3].querySelector('.value');
+                    if (futureGoal) {
+                        futureGoal.textContent = 'Together ♡';
+                        futureGoal.style.color = 'var(--rose-gold)';
+                    }
+
+                    // Show claim button after a moment
+                    setTimeout(() => {
+                        claimWrap.classList.add('reveal');
+                    }, 600);
+
+                }, 300 + statusItems.length * 280 + 300);
+
+            }, 550);
+        }
+
+        // ============================================================
+        //  CLAIM BUTTON → redirect to gift.html
+        // ============================================================
+        claimBtn.addEventListener('click', () => {
+            // Haptic feedback if available
+            if (navigator.vibrate) navigator.vibrate(12);
+
+            // Animate click
+            claimBtn.style.transform = 'scale(0.94)';
+            setTimeout(() => {
+                claimBtn.style.transform = '';
+            }, 200);
+
+            // Redirect
+            setTimeout(() => {
+                window.location.href = 'gift.html';
+            }, 350);
+        });
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        renderQuestion();
+
+        // Fix for mobile overscroll
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.app-wrapper')) return;
+        }, { passive: true });
+
+        // Prevent double-tap zoom on buttons
+        document.querySelectorAll('button, .answer-btn').forEach(el => {
+            el.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                el.click();
+            }, { passive: false });
+        });
+
+        console.log('✨ Final Challenge — Premium Quiz loaded.');
+        console.log('❤️ Made with love for the anniversary.');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anniversary Archive · Gateway</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.cdnfonts.com/css/lemon-milk" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ─── Reset & Base ─── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d080d;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: default;
+        }
+
+        /* ─── Animated Gradient Background ─── */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(ellipse at 20% 30%, #2d1528, #120b12 50%, #0a060a 80%);
+            background-size: 100% 100%;
+        }
+
+        .bg-canvas::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 70% 20%, rgba(180, 120, 160, 0.10) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 80%, rgba(200, 140, 180, 0.06) 0%, transparent 45%),
+                radial-gradient(ellipse at 80% 70%, rgba(160, 130, 180, 0.05) 0%, transparent 40%);
+            animation: ambientGlow 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambientGlow {
+            0% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.6;
+            }
+        }
+
+        .bg-canvas::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(200, 140, 180, 0.03) 0%, transparent 70%);
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        /* ─── Floating Particles / Hearts ─── */
+        #particles-container {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle linear infinite;
+            will-change: transform, opacity;
+            user-select: none;
+        }
+
+        .particle.heart {
+            font-size: 14px;
+            opacity: 0;
+            animation: floatHeart linear infinite;
+            text-shadow: 0 0 30px rgba(200, 140, 180, 0.15);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) scale(0.8);
+                opacity: 0;
+            }
+            8% {
+                opacity: 0.5;
+            }
+            85% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.6);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(720deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* ─── Mouse Glow ─── */
+        #mouse-glow {
+            position: fixed;
+            z-index: 0;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200, 140, 180, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            will-change: transform;
+        }
+
+        /* ─── Page Wrapper ─── */
+        .page-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            padding: 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: pageFadeIn 1.4s ease-out forwards;
+        }
+
+        @keyframes pageFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ─── Header Content ─── */
+        .header-content {
+            text-align: center;
+            margin-bottom: 2.8rem;
+            width: 100%;
+        }
+
+        .romantic-script {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: clamp(0.85rem, 1.4vw, 1.2rem);
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 0.25em;
+            color: rgba(200, 160, 190, 0.6);
+            text-transform: lowercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .main-title {
+            font-family: 'Lemon Milk', 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(2.6rem, 9vw, 5.6rem);
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, #f0d0e0, #e8b8d0, #d4b0d4, #e8b8d0, #f0d0e0);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerTitle 8s ease-in-out infinite alternate;
+            line-height: 1.05;
+            text-shadow: 0 0 80px rgba(200, 140, 180, 0.08);
+        }
+
+        @keyframes shimmerTitle {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .subheading {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.85rem, 1.3vw, 1.15rem);
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 0.7rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* ─── Glass Card ─── */
+        .glass-card {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            padding: 2.6rem 2.2rem 2.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(32px) saturate(1.4);
+            -webkit-backdrop-filter: blur(32px) saturate(1.4);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 40px 100px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+                0 0 80px rgba(200, 140, 180, 0.04);
+            transition: box-shadow 0.6s ease, border-color 0.6s ease;
+            text-align: center;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 29px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(200, 160, 190, 0.12), rgba(180, 140, 180, 0.04), rgba(200, 160, 190, 0.08));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.6s ease;
+        }
+
+        .glass-card:hover::before {
+            opacity: 0.8;
+        }
+
+        .glass-card.success-state {
+            border-color: rgba(180, 220, 200, 0.12);
+            box-shadow:
+                0 40px 100px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(180, 220, 200, 0.04) inset,
+                0 0 100px rgba(180, 220, 200, 0.05);
+        }
+
+        /* ─── Lock Icon ─── */
+        .lock-icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1.6rem;
+            border-radius: 50%;
+            background: rgba(200, 160, 190, 0.04);
+            border: 1px solid rgba(200, 160, 190, 0.08);
+            box-shadow: 0 0 50px rgba(200, 140, 180, 0.02);
+            transition: all 0.5s ease;
+        }
+
+        .lock-icon-wrap svg {
+            width: 30px;
+            height: 30px;
+            fill: none;
+            stroke: rgba(200, 170, 190, 0.7);
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.5s ease;
+        }
+
+        .glass-card:hover .lock-icon-wrap {
+            border-color: rgba(200, 160, 190, 0.15);
+            box-shadow: 0 0 60px rgba(200, 140, 180, 0.04);
+        }
+
+        .glass-card:hover .lock-icon-wrap svg {
+            stroke: rgba(210, 180, 200, 0.9);
+        }
+
+        /* ─── Password Label ─── */
+        .password-label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 0.6rem;
+            text-align: left;
+        }
+
+        /* ─── Input Field ─── */
+        .input-group {
+            width: 100%;
+            position: relative;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem 1.4rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            outline: none;
+            transition: all 0.4s ease;
+            caret-color: rgba(200, 170, 190, 0.6);
+        }
+
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 300;
+            letter-spacing: 0.08em;
+        }
+
+        .password-input:focus {
+            border-color: rgba(200, 160, 190, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 40px rgba(200, 140, 180, 0.02), 0 0 0 1px rgba(200, 160, 190, 0.05) inset;
+        }
+
+        .password-input.error {
+            border-color: rgba(200, 120, 130, 0.3);
+            background: rgba(200, 120, 130, 0.04);
+            animation: shakeInput 0.5s ease forwards;
+        }
+
+        .password-input.success {
+            border-color: rgba(160, 220, 190, 0.2);
+            background: rgba(160, 220, 190, 0.03);
+        }
+
+        @keyframes shakeInput {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            12% {
+                transform: translateX(-7px);
+            }
+            25% {
+                transform: translateX(7px);
+            }
+            37% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            70% {
+                transform: translateX(-3px);
+            }
+            85% {
+                transform: translateX(3px);
+            }
+        }
+
+        /* ─── Unlock Button ─── */
+        .unlock-btn {
+            width: 100%;
+            margin-top: 1.4rem;
+            padding: 1rem 1.4rem;
+            font-family: 'Lemon Milk', 'Playfair Display', serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(200, 160, 190, 0.10), rgba(180, 140, 180, 0.06));
+            border: 1px solid rgba(200, 160, 190, 0.10);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 30px rgba(200, 160, 190, 0.05);
+        }
+
+        .unlock-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(200, 160, 190, 0.08), rgba(180, 140, 180, 0.02));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .unlock-btn::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(200, 160, 190, 0.04), rgba(180, 140, 180, 0.01));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .unlock-btn:hover {
+            background: linear-gradient(135deg, rgba(200, 160, 190, 0.16), rgba(180, 140, 180, 0.10));
+            border-color: rgba(200, 160, 190, 0.18);
+            box-shadow:
+                0 0 50px rgba(200, 140, 180, 0.04),
+                0 0 0 1px rgba(200, 160, 190, 0.04) inset;
+            transform: translateY(-1px);
+            color: #fff;
+        }
+
+        .unlock-btn:hover::after {
+            opacity: 1;
+        }
+
+        .unlock-btn:active {
+            transform: scale(0.97) translateY(0);
+        }
+
+        .unlock-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ─── Message Area ─── */
+        .message-area {
+            min-height: 2.8rem;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            transition: all 0.5s ease;
+        }
+
+        .message-area.error {
+            color: rgba(200, 140, 150, 0.8);
+            animation: fadeMessage 0.5s ease forwards;
+        }
+
+        .message-area.success {
+            color: rgba(160, 220, 200, 0.9);
+            font-weight: 400;
+            animation: fadeMessage 0.6s ease forwards;
+        }
+
+        @keyframes fadeMessage {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-area .heart-emoji {
+            display: inline-block;
+            animation: pulseHeart 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulseHeart {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            margin-top: 3rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+            font-style: italic;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.15);
+            text-align: center;
+            transition: color 0.4s ease;
+        }
+
+        .footer:hover {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 640px) {
+            .page-wrapper {
+                padding: 1rem;
+                justify-content: center;
+            }
+            .glass-card {
+                padding: 2rem 1.4rem 1.8rem;
+                border-radius: 22px;
+            }
+            .lock-icon-wrap {
+                width: 54px;
+                height: 54px;
+            }
+            .lock-icon-wrap svg {
+                width: 26px;
+                height: 26px;
+            }
+            .password-input {
+                font-size: 0.9rem;
+                padding: 0.85rem 1.2rem;
+            }
+            .unlock-btn {
+                font-size: 0.7rem;
+                padding: 0.85rem 1.2rem;
+            }
+            .header-content {
+                margin-bottom: 2rem;
+            }
+            .romantic-script {
+                font-size: 0.75rem;
+                letter-spacing: 0.2em;
+            }
+            #mouse-glow {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .glass-card {
+                padding: 1.6rem 1rem 1.4rem;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+            .subheading {
+                font-size: 0.75rem;
+            }
+            .password-label {
+                font-size: 0.6rem;
+            }
+        }
+
+        @media (min-height: 900px) {
+            .page-wrapper {
+                min-height: 100vh;
+            }
+        }
+
+        /* ─── Scrollbar ─── */
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        /* ─── Selection ─── */
+        ::selection {
+            background: rgba(200, 140, 180, 0.15);
+            color: #fff;
+        }
+
+        /* ─── Reduce Motion ─── */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .particle,
+            .particle.heart {
+                display: none !important;
+            }
+            #mouse-glow {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── Background ─── -->
+    <div class="bg-canvas" aria-hidden="true"></div>
+
+    <!-- ─── Mouse Glow ─── -->
+    <div id="mouse-glow" aria-hidden="true"></div>
+
+    <!-- ─── Particles ─── -->
+    <div id="particles-container" aria-hidden="true"></div>
+
+    <!-- ─── Page Content ─── -->
+    <div class="page-wrapper" role="main" aria-label="Anniversary Archive gateway">
+
+        <!-- Header -->
+        <header class="header-content">
+            <p class="romantic-script">Two Years. One Story.</p>
+            <h1 class="main-title">Anniversary Archive</h1>
+            <p class="subheading">Some memories are too special to be left unlocked.</p>
+        </header>
+
+        <!-- Glass Card -->
+        <div class="glass-card" id="glassCard" role="form" aria-label="Access code entry">
+
+            <!-- Lock Icon -->
+            <div class="lock-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <rect x="4" y="11" width="16" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                    <circle cx="12" cy="16" r="1.5" fill="rgba(200,170,190,0.4)" stroke="none" />
+                </svg>
+            </div>
+
+            <!-- Password Label -->
+            <label class="password-label" for="passwordInput">Enter Access Code</label>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <input
+                type="password"
+                class="password-input"
+                id="passwordInput"
+                placeholder="Secret Code"
+                autocomplete="off"
+                aria-label="Enter your secret access code"
+                />
+            </div>
+
+            <!-- Unlock Button -->
+            <button class="unlock-btn" id="unlockBtn" type="button">
+                Unlock Archive
+            </button>
+
+            <!-- Message Area -->
+            <div class="message-area" id="messageArea"></div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            Created for someone special ❤️
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ─── DOM refs ────────────────────────────────────────────────
+            const glassCard = document.getElementById('glassCard');
+            const passwordInput = document.getElementById('passwordInput');
+            const unlockBtn = document.getElementById('unlockBtn');
+            const messageArea = document.getElementById('messageArea');
+            const mouseGlow = document.getElementById('mouse-glow');
+
+            const CORRECT_PASSWORD = '27082024';
+
+            let isUnlocked = false;
+            let redirectTimer = null;
+
+            // ─── Particles ──────────────────────────────────────────────
+            function createParticles() {
+                const container = document.getElementById('particles-container');
+                if (!container) return;
+
+                const types = ['circle', 'circle', 'circle', 'heart'];
+                const colors = [
+                    'rgba(200,160,190,0.15)',
+                    'rgba(180,140,180,0.10)',
+                    'rgba(220,180,200,0.12)',
+                    'rgba(160,130,180,0.08)',
+                ];
+
+                const count = Math.min(45, Math.floor(window.innerWidth / 28) + 20);
+
+                for (let i = 0; i < count; i++) {
+                    const type = types[i % types.length];
+                    const el = document.createElement('span');
+
+                    if (type === 'heart') {
+                        el.className = 'particle heart';
+                        el.textContent = ['♥', '♡', '♥', '♡'][i % 4];
+                        el.style.color = colors[i % colors.length];
+                        el.style.fontSize = (10 + Math.random() * 14) + 'px';
+                    } else {
+                        el.className = 'particle';
+                        const size = 2 + Math.random() * 5;
+                        el.style.width = size + 'px';
+                        el.style.height = size + 'px';
+                        el.style.background = colors[i % colors.length];
+                        el.style.borderRadius = '50%';
+                        el.style.boxShadow = `0 0 ${size * 2}px ${colors[i % colors.length]}`;
+                    }
+
+                    el.style.left = (Math.random() * 100) + '%';
+                    el.style.animationDuration = (18 + Math.random() * 28) + 's';
+                    el.style.animationDelay = (Math.random() * 30) + 's';
+                    el.style.opacity = 0;
+
+                    container.appendChild(el);
+                }
+            }
+
+            // ─── Mouse Glow ─────────────────────────────────────────────
+            function handleMouseMove(e) {
+                if (!mouseGlow) return;
+                const x = e.clientX || e.pageX || 0;
+                const y = e.clientY || e.pageY || 0;
+                mouseGlow.style.left = x + 'px';
+                mouseGlow.style.top = y + 'px';
+            }
+
+            // ─── UI Helpers ──────────────────────────────────────────────
+            function setMessage(text, type) {
+                messageArea.textContent = '';
+                messageArea.className = 'message-area';
+                if (!text) return;
+
+                const span = document.createElement('span');
+                span.textContent = text;
+                messageArea.appendChild(span);
+                messageArea.className = 'message-area ' + type;
+            }
+
+            function clearMessage() {
+                messageArea.textContent = '';
+                messageArea.className = 'message-area';
+            }
+
+            function resetInputState() {
+                passwordInput.classList.remove('error', 'success');
+                glassCard.classList.remove('success-state');
+            }
+
+            function showError() {
+                resetInputState();
+                passwordInput.classList.add('error');
+                setMessage('Access Denied. Try Again.', 'error');
+                // Shake card slightly
+                glassCard.style.animation = 'none';
+                void glassCard.offsetHeight;
+                glassCard.style.animation = 'shakeInput 0.5s ease forwards';
+                setTimeout(() => {
+                    glassCard.style.animation = '';
+                }, 550);
+            }
+
+            function showSuccess() {
+                resetInputState();
+                passwordInput.classList.add('success');
+                glassCard.classList.add('success-state');
+                setMessage('Access Granted ❤️', 'success');
+
+                // Add heart pulse to message
+                const msgSpan = messageArea.querySelector('span');
+                if (msgSpan) {
+                    const heartIdx = msgSpan.textContent.indexOf('❤️');
+                    if (heartIdx !== -1) {
+                        const wrapped = msgSpan.textContent.replace('❤️', '<span class="heart-emoji">❤️</span>');
+                        msgSpan.innerHTML = wrapped;
+                    }
+                }
+
+                // Disable input and button
+                passwordInput.disabled = true;
+                unlockBtn.disabled = true;
+                isUnlocked = true;
+
+                // Redirect after 2s
+                if (redirectTimer) clearTimeout(redirectTimer);
+                redirectTimer = setTimeout(function() {
+                    window.location.href = 'path.html';
+                }, 2000);
+            }
+
+            // ─── Password Logic ──────────────────────────────────────────
+            function attemptUnlock() {
+                if (isUnlocked) return;
+
+                const entered = passwordInput.value.trim();
+
+                if (!entered) {
+                    setMessage('Please enter the access code.', 'error');
+                    passwordInput.classList.add('error');
+                    setTimeout(() => {
+                        passwordInput.classList.remove('error');
+                        if (!isUnlocked) clearMessage();
+                    }, 1800);
+                    return;
+                }
+
+                if (entered === CORRECT_PASSWORD) {
+                    showSuccess();
+                } else {
+                    showError();
+                }
+            }
+
+            // ─── Event Listeners ─────────────────────────────────────────
+
+            // Unlock button
+            unlockBtn.addEventListener('click', attemptUnlock);
+
+            // Enter key on input
+            passwordInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    attemptUnlock();
+                }
+            });
+
+            // Clear error state on input
+            passwordInput.addEventListener('input', function() {
+                if (isUnlocked) return;
+                if (passwordInput.classList.contains('error')) {
+                    passwordInput.classList.remove('error');
+                    clearMessage();
+                }
+                glassCard.style.animation = '';
+            });
+
+            // Mouse glow
+            document.addEventListener('mousemove', handleMouseMove);
+
+            // ─── Init ─────────────────────────────────────────────────────
+
+            createParticles();
+
+            // Focus input after a moment
+            setTimeout(() => {
+                passwordInput.focus();
+            }, 900);
+
+            // ─── Handle resize ──────────────────────────────────────────
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    const container = document.getElementById('particles-container');
+                    if (container) {
+                        const current = container.querySelectorAll('.particle').length;
+                        const desired = Math.min(45, Math.floor(window.innerWidth / 28) + 20);
+                        if (current < desired && current < 50) {
+                            const types = ['circle', 'circle', 'circle', 'heart'];
+                            const colors = [
+                                'rgba(200,160,190,0.15)',
+                                'rgba(180,140,180,0.10)',
+                                'rgba(220,180,200,0.12)',
+                                'rgba(160,130,180,0.08)',
+                            ];
+                            const toAdd = Math.min(10, desired - current);
+                            for (let i = 0; i < toAdd; i++) {
+                                const idx = (current + i) % types.length;
+                                const type = types[idx];
+                                const el = document.createElement('span');
+                                if (type === 'heart') {
+                                    el.className = 'particle heart';
+                                    el.textContent = ['♥', '♡', '♥', '♡'][(current + i) % 4];
+                                    el.style.color = colors[idx % colors.length];
+                                    el.style.fontSize = (10 + Math.random() * 14) + 'px';
+                                } else {
+                                    el.className = 'particle';
+                                    const size = 2 + Math.random() * 5;
+                                    el.style.width = size + 'px';
+                                    el.style.height = size + 'px';
+                                    el.style.background = colors[idx % colors.length];
+                                    el.style.borderRadius = '50%';
+                                    el.style.boxShadow = `0 0 ${size * 2}px ${colors[idx % colors.length]}`;
+                                }
+                                el.style.left = (Math.random() * 100) + '%';
+                                el.style.animationDuration = (18 + Math.random() * 28) + 's';
+                                el.style.animationDelay = (Math.random() * 30) + 's';
+                                el.style.opacity = 0;
+                                container.appendChild(el);
+                            }
+                        }
+                    }
+                }, 500);
+            });
+
+            // ─── Prevent context menu (polish) ──────────────────────────
+            glassCard.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            console.log('🔐 Anniversary Archive · Gateway ready');
+            console.log('📅 Enter the secret code to unlock.');
+
+        })();
+    </script>
+
+</body>
+</html>
